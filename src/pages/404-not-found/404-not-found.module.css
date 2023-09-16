@@ -1,0 +1,15 @@
+.page_not_found {
+    text-align: center;
+    padding: 20px;
+}
+
+.page_not_found__title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.page_not_found__message {
+    font-size: 1.2rem;
+    color: #888;
+    margin-bottom: 20px;
+}

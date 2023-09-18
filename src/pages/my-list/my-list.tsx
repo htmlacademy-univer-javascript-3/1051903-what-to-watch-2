@@ -39,7 +39,7 @@ const MyList = ({ films }: MyListProps) => (
       <h2 className="catalog__title visually-hidden">Catalog</h2>
 
       <div className="catalog__films-list">
-        {films.map((film, i) => (
+        {films.map((film) => (
           <article
             key={film.id}
             className="small-film-card catalog__films-card"

@@ -22,7 +22,10 @@ const Card = ({ film }: CardProps) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Link to={AppRoute.Film.replace(':id', `${film.id}`)}  style={{ textDecoration: 'none', color:'#c9b37e'}}>
+      <Link
+        to={AppRoute.Film.replace(':id', `${film.id}`)}
+        style={{ textDecoration: 'none', color: '#c9b37e' }}
+      >
         <div className="small-film-card__image">
           <img
             src={'img/fantastic-beasts-the-crimes-of-grindelwald.jpg'}

@@ -11,13 +11,12 @@ const AddReview = ({ films }: AddReviewProps) => {
   const [reviewText, setReviewText] = useState('');
   const handleChange = (e: any) => {
     setReviewText(e.target.value);
-    console.log(reviewText)
-  }
+  };
   const { id } = useParams();
   if (id === undefined) {
     return <PageNotFound />;
   } else {
-    const selectedFilm = films[parseInt(id) - 1];
+    const selectedFilm = films[parseInt(id, 10) - 1];
     return (
       <section className="film-card film-card--full">
         <div className="film-card__header">
@@ -203,7 +202,8 @@ const AddReview = ({ films }: AddReviewProps) => {
                 id="review-text"
                 placeholder="Review text"
                 onChange={handleChange}
-              ></textarea>
+              >
+              </textarea>
               <div className="add-review__submit">
                 <button className="add-review__btn" type="submit">
                   Post

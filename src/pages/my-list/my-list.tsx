@@ -1,10 +1,10 @@
-import { TFilm } from "../../mocks/films";
+import { TFilm } from '../../mocks/films';
 
 type MyListProps = {
-  films: TFilm[]
-}
+  films: TFilm[];
+};
 
-const MyList = ({films} : MyListProps) => (
+const MyList = ({ films }: MyListProps) => (
   <div className="user-page">
     <header className="page-header user-page__head">
       <div className="logo">
@@ -39,23 +39,25 @@ const MyList = ({films} : MyListProps) => (
       <h2 className="catalog__title visually-hidden">Catalog</h2>
 
       <div className="catalog__films-list">
-    
-        {films.map((film,i) => (
-          <article key={film.id} className="small-film-card catalog__films-card">
-          <div className="small-film-card__image">
-            <img
-              src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-              alt={film.filmName}
-              width="280"
-              height="175"
-            />
-          </div>
-          <h3 className="small-film-card__title">
-            <a className="small-film-card__link" href="film-page.html">
-              {film.filmName}
-            </a>
-          </h3>
-        </article>
+        {films.map((film, i) => (
+          <article
+            key={film.id}
+            className="small-film-card catalog__films-card"
+          >
+            <div className="small-film-card__image">
+              <img
+                src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
+                alt={film.filmName}
+                width="280"
+                height="175"
+              />
+            </div>
+            <h3 className="small-film-card__title">
+              <a className="small-film-card__link" href="film-page.html">
+                {film.filmName}
+              </a>
+            </h3>
+          </article>
         ))}
       </div>
     </section>

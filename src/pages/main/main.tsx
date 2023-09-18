@@ -1,17 +1,15 @@
 import CardsList from '../../components/card-list/card-list';
 import { TFilm } from '../../mocks/films';
-import MyList from '../my-list/my-list';
 
 type MainProps = {
   filmTitle: string;
   genre: string;
   releaseDate: string;
-  films: TFilm[]
+  films: TFilm[];
 };
 
 const Main = ({ filmTitle, genre, releaseDate, films }: MainProps) => (
   <>
-    {/* <MyList films={films} /> */}
     <section className="film-card">
       <div className="film-card__bg">
         <img

@@ -24,14 +24,15 @@ const Player = ({ films }: PlayerProps) => {
   if (id === undefined) {
     return <PageNotFound />;
   } else {
-    const selectedFilm = films[parseInt(id) - 1];
+    const selectedFilm = films[parseInt(id, 10) - 1];
     return (
       <div className="player">
         <video
           src="#"
           className="player__video"
           poster="img/player-poster.jpg"
-        ></video>
+        >
+        </video>
         <Link to={AppRoute.Film.replace(':id', `${id}`)}>
           <button type="button" className="player__exit">
             Exit
@@ -45,7 +46,8 @@ const Player = ({ films }: PlayerProps) => {
                 className="player__progress"
                 value="30"
                 max="100"
-              ></progress>
+              >
+              </progress>
               <div className="player__toggler" style={{ left: '30%' }}>
                 Toggler
               </div>

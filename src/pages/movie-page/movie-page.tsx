@@ -7,36 +7,18 @@ import MoviePageOverview from '../movie-page-overview/movie-page-overview';
 import MoviePageDetails from '../movie-page-details/movie-page-details';
 import MoviePageReviews from '../movie-page-reviews/movie-page-reviews';
 
-
 type MoviePageProps = {
   films: TFilm[];
 };
 
 const MoviePage = ({ films }: MoviePageProps) => {
-  // const getRatingDescription = (rating: number) => {
-  //   const ratingDescriptions: { [key: number]: string } = {
-  //     1: 'Bad',
-  //     2: 'Bad',
-  //     3: 'Bad',
-  //     4: 'Bad',
-  //     5: 'Bad',
-  //     6: 'Normal',
-  //     7: 'Good',
-  //     8: 'Very good',
-  //     9: 'Awesome',
-  //     10: 'Awesome',
-  //   };
-
-  //   return ratingDescriptions[Math.floor(rating)] || 'Ещё не оценено';
-  // };
   const [activeButton, setActiveButton] = useState('Overview');
-
 
   const { id } = useParams();
   if (id === undefined) {
     return <PageNotFound />;
   } else {
-    const selectedFilm = films[parseInt(id) - 1];
+    const selectedFilm = films[parseInt(id, 10) - 1];
     return (
       <>
         <section className="film-card film-card--full">
@@ -92,7 +74,10 @@ const MoviePage = ({ films }: MoviePageProps) => {
                     <svg viewBox="0 0 19 19" width="19" height="19">
                       <use xlinkHref="#play-s"></use>
                     </svg>
-                    <Link to={AppRoute.Player.replace(':id', `${selectedFilm.id}`)} style={{ textDecoration: 'none', color:'#eee5b5'}}>
+                    <Link
+                      to={AppRoute.Player.replace(':id', `${selectedFilm.id}`)}
+                      style={{ textDecoration: 'none', color: '#eee5b5' }}
+                    >
                       <span>Play</span>
                     </Link>
                   </button>
@@ -106,7 +91,10 @@ const MoviePage = ({ films }: MoviePageProps) => {
                     <span>My list</span>
                     <span className="film-card__count">{films.length}</span>
                   </button>
-                  <Link to={AppRoute.AddReview.replace(':id', `${selectedFilm.id}`)} className="btn film-card__button">
+                  <Link
+                    to={AppRoute.AddReview.replace(':id', `${selectedFilm.id}`)}
+                    className="btn film-card__button"
+                  >
                     Add review
                   </Link>
                 </div>
@@ -128,27 +116,62 @@ const MoviePage = ({ films }: MoviePageProps) => {
               <div className="film-card__desc">
                 <nav className="film-nav film-card__nav">
                   <ul className="film-nav__list">
-                    <li className={`film-nav__item ${activeButton === 'Overview' ? 'film-nav__item--active' : ''}`}>
-                      <p className="film-nav__link" onClick={() => setActiveButton('Overview')} style={{cursor:'pointer'}}>
+                    <li
+                      className={`film-nav__item ${
+                        activeButton === 'Overview'
+                          ? 'film-nav__item--active'
+                          : ''
+                      }`}
+                    >
+                      <p
+                        className="film-nav__link"
+                        onClick={() => setActiveButton('Overview')}
+                        style={{ cursor: 'pointer' }}
+                      >
                         Overview
                       </p>
                     </li>
-                    <li className={`film-nav__item ${activeButton === 'Details' ? 'film-nav__item--active' : ''}`} >
-                      <p className="film-nav__link" onClick={() => setActiveButton('Details')} style={{cursor:'pointer'}}>
+                    <li
+                      className={`film-nav__item ${
+                        activeButton === 'Details'
+                          ? 'film-nav__item--active'
+                          : ''
+                      }`}
+                    >
+                      <p
+                        className="film-nav__link"
+                        onClick={() => setActiveButton('Details')}
+                        style={{ cursor: 'pointer' }}
+                      >
                         Details
                       </p>
                     </li>
-                    <li className={`film-nav__item ${activeButton === 'Reviews' ? 'film-nav__item--active' : ''}`}>
-                      <p className="film-nav__link" onClick={() => setActiveButton('Reviews')} style={{cursor:'pointer'}}>
+                    <li
+                      className={`film-nav__item ${
+                        activeButton === 'Reviews'
+                          ? 'film-nav__item--active'
+                          : ''
+                      }`}
+                    >
+                      <p
+                        className="film-nav__link"
+                        onClick={() => setActiveButton('Reviews')}
+                        style={{ cursor: 'pointer' }}
+                      >
                         Reviews
                       </p>
                     </li>
                   </ul>
                 </nav>
-                {activeButton === 'Overview' && <MoviePageOverview selectedFilm={selectedFilm}/>}
-                {activeButton === 'Details' && <MoviePageDetails selectedFilm={selectedFilm}/>}
-                {activeButton === 'Reviews' && <MoviePageReviews selectedFilm={selectedFilm}/>}
-                
+                {activeButton === 'Overview' && (
+                  <MoviePageOverview selectedFilm={selectedFilm} />
+                )}
+                {activeButton === 'Details' && (
+                  <MoviePageDetails selectedFilm={selectedFilm} />
+                )}
+                {activeButton === 'Reviews' && (
+                  <MoviePageReviews selectedFilm={selectedFilm} />
+                )}
               </div>
             </div>
           </div>

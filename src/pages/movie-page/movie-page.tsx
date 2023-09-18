@@ -1,11 +1,10 @@
+import { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import Tabs from '../../components/tabs/tabs';
 import { AppRoute } from '../../const';
 import { TFilm } from '../../mocks/films';
 import PageNotFound from '../404-not-found/404-not-found';
-import { useParams, Link } from 'react-router-dom';
-import { useState } from 'react';
-import MoviePageOverview from '../movie-page-overview/movie-page-overview';
-import MoviePageDetails from '../movie-page-details/movie-page-details';
-import MoviePageReviews from '../movie-page-reviews/movie-page-reviews';
+import MoreLikeThis from '../../components/more-like-this/more-like-this';
 
 type MoviePageProps = {
   films: TFilm[];
@@ -113,140 +112,13 @@ const MoviePage = ({ films }: MoviePageProps) => {
                 />
               </div>
 
-              <div className="film-card__desc">
-                <nav className="film-nav film-card__nav">
-                  <ul className="film-nav__list">
-                    <li
-                      className={`film-nav__item ${
-                        activeButton === 'Overview'
-                          ? 'film-nav__item--active'
-                          : ''
-                      }`}
-                    >
-                      <p
-                        className="film-nav__link"
-                        onClick={() => setActiveButton('Overview')}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        Overview
-                      </p>
-                    </li>
-                    <li
-                      className={`film-nav__item ${
-                        activeButton === 'Details'
-                          ? 'film-nav__item--active'
-                          : ''
-                      }`}
-                    >
-                      <p
-                        className="film-nav__link"
-                        onClick={() => setActiveButton('Details')}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        Details
-                      </p>
-                    </li>
-                    <li
-                      className={`film-nav__item ${
-                        activeButton === 'Reviews'
-                          ? 'film-nav__item--active'
-                          : ''
-                      }`}
-                    >
-                      <p
-                        className="film-nav__link"
-                        onClick={() => setActiveButton('Reviews')}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        Reviews
-                      </p>
-                    </li>
-                  </ul>
-                </nav>
-                {activeButton === 'Overview' && (
-                  <MoviePageOverview selectedFilm={selectedFilm} />
-                )}
-                {activeButton === 'Details' && (
-                  <MoviePageDetails selectedFilm={selectedFilm} />
-                )}
-                {activeButton === 'Reviews' && (
-                  <MoviePageReviews selectedFilm={selectedFilm} />
-                )}
-              </div>
+              <Tabs selectedFilm={selectedFilm} />
             </div>
           </div>
         </section>
 
         <div className="page-content">
-          <section className="catalog catalog--like-this">
-            <h2 className="catalog__title">More like this</h2>
-
-            <div className="catalog__films-list">
-              <article className="small-film-card catalog__films-card">
-                <div className="small-film-card__image">
-                  <img
-                    src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-                    alt="Fantastic Beasts: The Crimes of Grindelwald"
-                    width="280"
-                    height="175"
-                  />
-                </div>
-                <h3 className="small-film-card__title">
-                  <a className="small-film-card__link" href="film-page.html">
-                    Fantastic Beasts: The Crimes of Grindelwald
-                  </a>
-                </h3>
-              </article>
-
-              <article className="small-film-card catalog__films-card">
-                <div className="small-film-card__image">
-                  <img
-                    src="img/bohemian-rhapsody.jpg"
-                    alt="Bohemian Rhapsody"
-                    width="280"
-                    height="175"
-                  />
-                </div>
-                <h3 className="small-film-card__title">
-                  <a className="small-film-card__link" href="film-page.html">
-                    Bohemian Rhapsody
-                  </a>
-                </h3>
-              </article>
-
-              <article className="small-film-card catalog__films-card">
-                <div className="small-film-card__image">
-                  <img
-                    src="img/macbeth.jpg"
-                    alt="Macbeth"
-                    width="280"
-                    height="175"
-                  />
-                </div>
-                <h3 className="small-film-card__title">
-                  <a className="small-film-card__link" href="film-page.html">
-                    Macbeth
-                  </a>
-                </h3>
-              </article>
-
-              <article className="small-film-card catalog__films-card">
-                <div className="small-film-card__image">
-                  <img
-                    src="img/aviator.jpg"
-                    alt="Aviator"
-                    width="280"
-                    height="175"
-                  />
-                </div>
-                <h3 className="small-film-card__title">
-                  <a className="small-film-card__link" href="film-page.html">
-                    Aviator
-                  </a>
-                </h3>
-              </article>
-            </div>
-          </section>
+          <MoreLikeThis films={films} filmGenre={selectedFilm.genre}/>
 
           <footer className="page-footer">
             <div className="logo">

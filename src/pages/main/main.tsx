@@ -1,13 +1,17 @@
-import Card from '../../components/card/card';
+import CardsList from '../../components/card-list/card-list';
+import { TFilm } from '../../mocks/films';
+import MyList from '../my-list/my-list';
 
 type MainProps = {
   filmTitle: string;
   genre: string;
   releaseDate: string;
+  films: TFilm[]
 };
 
-const Main = ({ filmTitle, genre, releaseDate }: MainProps) => (
+const Main = ({ filmTitle, genre, releaseDate, films }: MainProps) => (
   <>
+    {/* <MyList films={films} /> */}
     <section className="film-card">
       <div className="film-card__bg">
         <img
@@ -139,11 +143,7 @@ const Main = ({ filmTitle, genre, releaseDate }: MainProps) => (
           </li>
         </ul>
 
-        <div className="catalog__films-list">
-          {Array.from({ length: 20 }, (_, i) => (
-            <Card key={i} />
-          ))}
-        </div>
+        <CardsList films={films} />
 
         <div className="catalog__more">
           <button className="catalog__button" type="button">

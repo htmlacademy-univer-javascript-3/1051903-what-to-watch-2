@@ -13,7 +13,7 @@ const MoreLikeThis = ({ films, filmGenre }: MoreLikeThisProps) => {
 
       <div className="catalog__films-list">
         {movieList.map((film) => (
-          <article className="small-film-card catalog__films-card">
+          <article className="small-film-card catalog__films-card" key={film.filmName}>
             <div className="small-film-card__image">
               <img
                 src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"

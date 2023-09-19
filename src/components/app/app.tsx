@@ -15,15 +15,18 @@ type AppProps = {
   genre: string;
   releaseDate: string;
   films: TFilm[];
+  genres: string[];
+  selectFilmsByGenre: (genre: string) => TFilm[];
 };
 
-const App = ({ filmTitle, genre, releaseDate, films }: AppProps) => (
+
+const App = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre }: AppProps) => (
   <BrowserRouter>
     <Routes>
       <Route
         path={AppRoute.Main}
         element={
-          <Main films={films} filmTitle={filmTitle} genre={genre} releaseDate={releaseDate} />
+          <Main films={films} filmTitle={filmTitle} genre={genre} releaseDate={releaseDate} genres={genres} selectFilmsByGenre={selectFilmsByGenre}/>
         }
       >
       </Route>

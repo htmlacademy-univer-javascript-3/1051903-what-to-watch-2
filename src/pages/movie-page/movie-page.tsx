@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Tabs from '../../components/tabs/tabs';
 import { AppRoute } from '../../const';
@@ -11,7 +10,6 @@ type MoviePageProps = {
 };
 
 const MoviePage = ({ films }: MoviePageProps) => {
-  const [activeButton, setActiveButton] = useState('Overview');
 
   const { id } = useParams();
   if (id === undefined) {

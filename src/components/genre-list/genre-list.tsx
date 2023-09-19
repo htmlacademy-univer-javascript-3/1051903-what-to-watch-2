@@ -3,70 +3,26 @@ import { changeGenre } from '../../store/action';
 import CardsList from '../card-list/card-list';
 import cn from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
 type GenreListProps = {
-  films: TFilm[];
+  visibleFilms: number;
   genres: string[];
   selectFilmsByGenre: (genre: string) => TFilm[];
+  setVisibleFilms: any
 };
 
-const GenreList = ({ genres, selectFilmsByGenre }: GenreListProps) => {
+const GenreList = ({ genres, selectFilmsByGenre, visibleFilms, setVisibleFilms }: GenreListProps) => {
   const dispatch = useDispatch();
   const selectedGenre = useSelector((state: any) => state.selectedGenre);
   const genreFilms = selectFilmsByGenre(selectedGenre);
+  const genreFilmsToShow = genreFilms.slice(0,visibleFilms);
+  useEffect(()=> {
+    setVisibleFilms(8)
+  }, [])
   return (
     <>
       <ul className="catalog__genres-list">
-        {/* <li className="catalog__genres-item catalog__genres-item--active">
-          <a href="#" className="catalog__genres-link">
-            All genres
-          </a>
-        </li>
-        <li className="catalog__genres-item">
-          <a href="#" className="catalog__genres-link">
-            Comedies
-          </a>
-        </li>
-        <li className="catalog__genres-item">
-          <a href="#" className="catalog__genres-link">
-            Crime
-          </a>
-        </li>
-        <li className="catalog__genres-item">
-          <a href="#" className="catalog__genres-link">
-            Documentary
-          </a>
-        </li>
-        <li className="catalog__genres-item">
-          <a href="#" className="catalog__genres-link">
-            Dramas
-          </a>
-        </li>
-        <li className="catalog__genres-item">
-          <a href="#" className="catalog__genres-link">
-            Horror
-          </a>
-        </li>
-        <li className="catalog__genres-item">
-          <a href="#" className="catalog__genres-link">
-            Kids & Family
-          </a>
-        </li>
-        <li className="catalog__genres-item">
-          <a href="#" className="catalog__genres-link">
-            Romance
-          </a>
-        </li>
-        <li className="catalog__genres-item">
-          <a href="#" className="catalog__genres-link">
-            Sci-Fi
-          </a>
-        </li>
-        <li className="catalog__genres-item">
-          <a href="#" className="catalog__genres-link">
-            Thrillers
-          </a>
-        </li> */}
         {genres.map((genre) => (
           <li
             className={cn('catalog__genres-item', {
@@ -84,7 +40,7 @@ const GenreList = ({ genres, selectFilmsByGenre }: GenreListProps) => {
         ))}
       </ul>
 
-      <CardsList genreFilms={genreFilms} />
+      <CardsList genreFilms={genreFilmsToShow} />
     </>
   );
 };

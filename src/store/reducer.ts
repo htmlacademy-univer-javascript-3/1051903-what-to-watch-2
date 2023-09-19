@@ -357,7 +357,7 @@ export const genres: string[] = [
 ];
 
 const initialState = {
-  selectedGenre: 'Драма',
+  selectedGenre: 'All genres',
   films: films,
   genres: genres,
 };

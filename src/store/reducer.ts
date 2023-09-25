@@ -1,8 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeGenre, setMovies } from './action';
+import { changeGenre, loadFilms, setMovies } from './action';
+import { AuthorizationStatus } from '../const';
 
 export type TFilm = {
-  id: number;
+  id: string;
   filmName: string;
   genre: string;
   year: number;
@@ -21,7 +22,7 @@ type TOverviewDetails = {
 
 export const films: TFilm[] = [
   {
-    id: 1,
+    id: '1',
     filmName: 'Отель "Гранд Будапешт"',
     genre: 'Драма',
     year: 2014,
@@ -38,7 +39,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 2,
+    id: '2',
     filmName: 'Джон Уик',
     genre: 'Триллер',
     year: 2014,
@@ -55,7 +56,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 3,
+    id: '3',
     filmName: 'Вокруг света за 80 дней',
     genre: 'Комедия',
     year: 1956,
@@ -72,7 +73,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 4,
+    id: '4',
     filmName: 'Звезда родилась',
     genre: 'Драма',
     year: 2018,
@@ -89,7 +90,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 5,
+    id: '5',
     filmName: 'Дьявол носит Prada',
     genre: 'Драма',
     year: 2006,
@@ -106,7 +107,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 6,
+    id: '6',
     filmName: 'Пираты Карибского моря',
     genre: 'Фэнтези',
     year: 2003,
@@ -122,7 +123,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 7,
+    id: '7',
     filmName: 'Марсианин',
     genre: 'Драма',
     year: 2015,
@@ -139,7 +140,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 8,
+    id: '8',
     filmName: 'Люди в чёрном',
     genre: 'Комедия',
     year: 1997,
@@ -155,7 +156,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 9,
+    id: '9',
     filmName: 'Фильм 9',
     genre: 'Комедия',
     year: 1997,
@@ -171,7 +172,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 10,
+    id: '10',
     filmName: 'Фильм 10',
     genre: 'Комедия',
     year: 1997,
@@ -187,7 +188,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 11,
+    id: '11',
     filmName: 'Фильм 11',
     genre: 'Комедия',
     year: 1997,
@@ -203,7 +204,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 12,
+    id: '12',
     filmName: 'Фильм 12',
     genre: 'Комедия',
     year: 1997,
@@ -219,7 +220,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 13,
+    id: '13',
     filmName: 'Фильм 13',
     genre: 'Комедия',
     year: 1997,
@@ -235,7 +236,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 14,
+    id: '14',
     filmName: 'Фильм 14',
     genre: 'Комедия',
     year: 1997,
@@ -251,7 +252,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 15,
+    id: '15',
     filmName: 'Фильм 15',
     genre: 'Комедия',
     year: 1997,
@@ -267,7 +268,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 16,
+    id: '16',
     filmName: 'Фильм 16',
     genre: 'Комедия',
     year: 1997,
@@ -283,7 +284,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 17,
+    id: '17',
     filmName: 'Фильм 17',
     genre: 'Комедия',
     year: 1997,
@@ -299,7 +300,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 18,
+    id: '18',
     filmName: 'Фильм 18',
     genre: 'Комедия',
     year: 1997,
@@ -315,7 +316,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 19,
+    id: '19',
     filmName: 'Фильм 19',
     genre: 'Комедия',
     year: 1997,
@@ -331,7 +332,7 @@ export const films: TFilm[] = [
     },
   },
   {
-    id: 20,
+    id: '20',
     filmName: 'Фильм 20',
     genre: 'Комедия',
     year: 1997,
@@ -358,8 +359,9 @@ export const genres: string[] = [
 
 const initialState = {
   selectedGenre: 'All genres',
-  films: films,
+  films: [],
   genres: genres,
+  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -369,10 +371,13 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setMovies, (state, action) => {
       state.films = action.payload;
+    })
+    .addCase(loadFilms, (state, action) => {
+      state.films = action.payload;
     });
 });
 
 export const selectFilmsByGenre = (genre: string) =>
   genre === 'All genres'
     ? films
-    : films.slice().filter((film) => film.genre === genre);    
+    : films.slice().filter((film) => film.genre === genre);

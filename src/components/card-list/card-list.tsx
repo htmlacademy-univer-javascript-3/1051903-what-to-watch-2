@@ -14,7 +14,3 @@ const CardsList = ({ genreFilms }: CardListProps) => (
 );
 
 export default CardsList;
-
-// {Array.from({ length: 20 }, (_, i) => (
-//   <Card key={i} film={films[i]} />
-// ))}

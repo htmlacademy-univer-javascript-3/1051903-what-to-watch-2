@@ -11,3 +11,9 @@ export const setMovies = createAction('moviepage/setMovies', (movies) => {
     payload: movies,
   };
 });
+
+export const loadFilms = createAction('moviepage/loadFilms', (films) => {
+  return {
+    payload: films,
+  };
+})

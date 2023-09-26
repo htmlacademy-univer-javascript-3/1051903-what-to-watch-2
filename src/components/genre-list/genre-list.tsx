@@ -8,14 +8,15 @@ import { useEffect } from 'react';
 type GenreListProps = {
   visibleFilms: number;
   genres: string[];
-  selectFilmsByGenre: (genre: string) => TFilm[];
-  setVisibleFilms: any
+  selectFilmsByGenre: (genre: string, films: TFilm[]) => TFilm[];
+  setVisibleFilms: any;
+  films: TFilm[];
 };
 
-const GenreList = ({ genres, selectFilmsByGenre, visibleFilms, setVisibleFilms }: GenreListProps) => {
+const GenreList = ({ genres, selectFilmsByGenre, visibleFilms, setVisibleFilms, films }: GenreListProps) => {
   const dispatch = useDispatch();
   const selectedGenre = useSelector((state: any) => state.selectedGenre);
-  const genreFilms = selectFilmsByGenre(selectedGenre);
+  const genreFilms = selectFilmsByGenre(selectedGenre, films);
   const genreFilmsToShow = genreFilms.slice(0,visibleFilms);
   useEffect(()=> {
     setVisibleFilms(8)

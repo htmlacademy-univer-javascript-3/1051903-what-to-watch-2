@@ -1,7 +1,8 @@
 import GenreList from '../../components/genre-list/genre-list';
 import ShowMore from '../../components/show-more/show-more';
 import { TFilm } from '../../mocks/films';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchFilmsAction } from '../../store/api-actions';
 
 type MainProps = {
   filmTitle: string;
@@ -9,12 +10,15 @@ type MainProps = {
   releaseDate: string;
   films: TFilm[];
   genres: string[];
-  selectFilmsByGenre: (genre: string) => TFilm[];
+  selectFilmsByGenre: (genre: string, films: TFilm[]) => TFilm[];
 };
 
 const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, }: MainProps) => {
   const [visibleFilms, setVisibleFilms] = useState(8);
   const addMoreFilms = () => setVisibleFilms(visibleFilms + 8);
+  useEffect(() => {
+    fetchFilmsAction();
+  }, [])
   return (
     <>
       <section className="film-card">
@@ -106,6 +110,7 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
             genres={genres}
             selectFilmsByGenre={selectFilmsByGenre}
             setVisibleFilms ={setVisibleFilms}
+            films = {films}
           />
           {films.length > visibleFilms && (
             <ShowMore addMoreFilms={addMoreFilms} />

@@ -4,6 +4,7 @@ import ShowMore from '../../components/show-more/show-more';
 import { TFilm } from '../../mocks/films';
 import { store } from '../../store';
 import { fetchFilmsAction } from '../../store/api-actions';
+import Spinner from '../../components/spinner/spinner';
 
 type MainProps = {
   filmTitle: string;
@@ -17,8 +18,11 @@ type MainProps = {
 const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, }: MainProps) => {
   const [visibleFilms, setVisibleFilms] = useState(8);
   const addMoreFilms = () => setVisibleFilms(visibleFilms + 8);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    store.dispatch(fetchFilmsAction());
+    store.dispatch(fetchFilmsAction()).then(() => {
+      setIsLoading(false)
+    });
     console.log(store.getState().previewFilms)
   }, [])
   return (
@@ -107,13 +111,18 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenreList
-            visibleFilms={visibleFilms}
-            genres={genres}
-            selectFilmsByGenre={selectFilmsByGenre}
-            setVisibleFilms ={setVisibleFilms}
-            films = {films}
-          />
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <GenreList
+              visibleFilms={visibleFilms}
+              genres={genres}
+              selectFilmsByGenre={selectFilmsByGenre}
+              setVisibleFilms={setVisibleFilms}
+              films={films}
+            />
+          )}
+
           {films.length > visibleFilms && (
             <ShowMore addMoreFilms={addMoreFilms} />
           )}

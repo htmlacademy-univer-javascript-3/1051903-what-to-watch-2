@@ -5,7 +5,7 @@ import MoviePageOverview from '../../pages/movie-page-overview/movie-page-overvi
 import { TFilm } from '../../mocks/films';
 
 type TabsProps = {
-  selectedFilm: TFilm;
+  selectedFilm: any;
 };
 
 const Tabs = ({ selectedFilm }: TabsProps) => {

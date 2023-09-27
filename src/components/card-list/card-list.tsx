@@ -8,13 +8,9 @@ type CardListProps = {
 const CardsList = ({ genreFilms }: CardListProps) => (
   <div className="catalog__films-list">
     {genreFilms.map((film) => (
-      <Card film={film} key={film.filmName} />
+      <Card film={film} key={film.name} />
     ))}
   </div>
 );
 
 export default CardsList;
-
-// {Array.from({ length: 20 }, (_, i) => (
-//   <Card key={i} film={films[i]} />
-// ))}

@@ -1,7 +1,10 @@
+import { useEffect, useState } from 'react';
 import GenreList from '../../components/genre-list/genre-list';
 import ShowMore from '../../components/show-more/show-more';
 import { TFilm } from '../../mocks/films';
-import { useState } from 'react';
+import { store } from '../../store';
+import { fetchFilmsAction } from '../../store/api-actions';
+import Spinner from '../../components/spinner/spinner';
 
 type MainProps = {
   filmTitle: string;
@@ -9,12 +12,19 @@ type MainProps = {
   releaseDate: string;
   films: TFilm[];
   genres: string[];
-  selectFilmsByGenre: (genre: string) => TFilm[];
+  selectFilmsByGenre: (genre: string, films: TFilm[]) => TFilm[];
 };
 
 const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, }: MainProps) => {
   const [visibleFilms, setVisibleFilms] = useState(8);
   const addMoreFilms = () => setVisibleFilms(visibleFilms + 8);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    store.dispatch(fetchFilmsAction()).then(() => {
+      setIsLoading(false)
+    });
+    console.log(store.getState().previewFilms)
+  }, [])
   return (
     <>
       <section className="film-card">
@@ -101,12 +111,18 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenreList
-            visibleFilms={visibleFilms}
-            genres={genres}
-            selectFilmsByGenre={selectFilmsByGenre}
-            setVisibleFilms ={setVisibleFilms}
-          />
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <GenreList
+              visibleFilms={visibleFilms}
+              genres={genres}
+              selectFilmsByGenre={selectFilmsByGenre}
+              setVisibleFilms={setVisibleFilms}
+              films={films}
+            />
+          )}
+
           {films.length > visibleFilms && (
             <ShowMore addMoreFilms={addMoreFilms} />
           )}

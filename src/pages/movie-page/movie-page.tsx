@@ -10,12 +10,12 @@ type MoviePageProps = {
 };
 
 const MoviePage = ({ films }: MoviePageProps) => {
-
   const { id } = useParams();
   if (id === undefined) {
     return <PageNotFound />;
   } else {
-    const selectedFilm = films[parseInt(id, 10) - 1];
+    // const selectedFilm = films.find(film => film.id === id);
+    const selectedFilm = films[0];
     return (
       <>
         <section className="film-card film-card--full">
@@ -57,10 +57,10 @@ const MoviePage = ({ films }: MoviePageProps) => {
 
             <div className="film-card__wrap">
               <div className="film-card__desc">
-                <h2 className="film-card__title">{selectedFilm.filmName}</h2>
+                <h2 className="film-card__title">{selectedFilm?.filmName}</h2>
                 <p className="film-card__meta">
-                  <span className="film-card__genre">{selectedFilm.genre}</span>
-                  <span className="film-card__year">{selectedFilm.year}</span>
+                  <span className="film-card__genre">{selectedFilm?.genre}</span>
+                  <span className="film-card__year">{selectedFilm?.year}</span>
                 </p>
 
                 <div className="film-card__buttons">
@@ -72,7 +72,7 @@ const MoviePage = ({ films }: MoviePageProps) => {
                       <use xlinkHref="#play-s"></use>
                     </svg>
                     <Link
-                      to={AppRoute.Player.replace(':id', `${selectedFilm.id}`)}
+                      to={AppRoute.Player.replace(':id', `${selectedFilm?.id}`)}
                       style={{ textDecoration: 'none', color: '#eee5b5' }}
                     >
                       <span>Play</span>
@@ -89,7 +89,7 @@ const MoviePage = ({ films }: MoviePageProps) => {
                     <span className="film-card__count">{films.length}</span>
                   </button>
                   <Link
-                    to={AppRoute.AddReview.replace(':id', `${selectedFilm.id}`)}
+                    to={AppRoute.AddReview.replace(':id', `${selectedFilm?.id}`)}
                     className="btn film-card__button"
                   >
                     Add review
@@ -116,7 +116,7 @@ const MoviePage = ({ films }: MoviePageProps) => {
         </section>
 
         <div className="page-content">
-          <MoreLikeThis films={films} filmGenre={selectedFilm.genre}/>
+          <MoreLikeThis films={films} filmGenre={selectedFilm?.genre}/>
 
           <footer className="page-footer">
             <div className="logo">

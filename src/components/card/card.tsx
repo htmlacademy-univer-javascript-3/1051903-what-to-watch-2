@@ -1,11 +1,10 @@
-import { useState, useRef } from 'react';
-import { TFilm } from '../../mocks/films';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import VideoPlayer from '../video-player/video-player';
 
 type CardProps = {
-  film: TFilm;
+  film: any;
 };
 
 const Card = ({ film }: CardProps) => {
@@ -42,15 +41,15 @@ const Card = ({ film }: CardProps) => {
           <>
             <div className="small-film-card__image">
               <img
-                src={'img/fantastic-beasts-the-crimes-of-grindelwald.jpg'}
-                alt={film.filmName}
+                src={film.previewImage}
+                alt={film.name}
                 width="280"
                 height="175"
               />
             </div>
             <h3 className="small-film-card__title">
               <a className="small-film-card__link" href="film-page.html">
-                {film.filmName}
+                {film.name}
               </a>
             </h3>
           </>

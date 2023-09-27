@@ -16,7 +16,7 @@ type AppProps = {
   releaseDate: string;
   films: TFilm[];
   genres: string[];
-  selectFilmsByGenre: (genre: string) => TFilm[];
+  selectFilmsByGenre: (genre: string, films: TFilm[]) => TFilm[];
 };
 
 

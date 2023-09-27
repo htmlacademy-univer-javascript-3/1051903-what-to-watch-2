@@ -1,9 +1,10 @@
+import cn from 'classnames';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { TFilm } from '../../mocks/films';
+import { store } from '../../store';
 import { changeGenre } from '../../store/action';
 import CardsList from '../card-list/card-list';
-import cn from 'classnames';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 
 type GenreListProps = {
   visibleFilms: number;
@@ -16,8 +17,10 @@ type GenreListProps = {
 const GenreList = ({ genres, selectFilmsByGenre, visibleFilms, setVisibleFilms, films }: GenreListProps) => {
   const dispatch = useDispatch();
   const selectedGenre = useSelector((state: any) => state.selectedGenre);
-  const genreFilms = selectFilmsByGenre(selectedGenre, films);
+  const previewFilms = store.getState().previewFilms;
+  const genreFilms = selectFilmsByGenre(selectedGenre, previewFilms);
   const genreFilmsToShow = genreFilms.slice(0,visibleFilms);
+
   useEffect(()=> {
     setVisibleFilms(8)
   }, [])

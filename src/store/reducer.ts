@@ -2,6 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { changeGenre, loadFilms, setMovies } from './action';
 import { AuthorizationStatus } from '../const';
 import { TFilm } from '../mocks/films';
+import { fetchFilmsAction } from './api-actions';
 
 export const films: TFilm[] = [
   {
@@ -669,6 +670,7 @@ const initialState = {
     },
   },],
   genres: genres,
+  previewFilms:[],
   authorizationStatus: AuthorizationStatus.Unknown,
 };
 
@@ -681,8 +683,11 @@ export const reducer = createReducer(initialState, (builder) => {
       state.films = action.payload;
     })
     .addCase(loadFilms, (state, action) => {
-      state.films = action.payload;
-    });
+      state.previewFilms = action.payload;
+    })
+    // .addCase(fetchFilmsAction.fulfilled, (state, action) => {
+    //   state.films.push(action.payload)
+    // })
 });
 
 export const selectFilmsByGenre = (genre: string, films: TFilm[]) => {

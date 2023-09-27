@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react';
 import GenreList from '../../components/genre-list/genre-list';
 import ShowMore from '../../components/show-more/show-more';
 import { TFilm } from '../../mocks/films';
-import { useEffect, useState } from 'react';
+import { store } from '../../store';
 import { fetchFilmsAction } from '../../store/api-actions';
 
 type MainProps = {
@@ -17,7 +18,8 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
   const [visibleFilms, setVisibleFilms] = useState(8);
   const addMoreFilms = () => setVisibleFilms(visibleFilms + 8);
   useEffect(() => {
-    fetchFilmsAction();
+    store.dispatch(fetchFilmsAction());
+    console.log(store.getState().previewFilms)
   }, [])
   return (
     <>

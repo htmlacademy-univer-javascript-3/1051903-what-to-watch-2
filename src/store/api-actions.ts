@@ -14,10 +14,7 @@ export const fetchFilmsAction = createAsyncThunk<void, undefined, {
     extra: AxiosInstance;
   }
 >('data/fetchFilms', async (_arg, { dispatch, extra: api }) => {
-  console.log('Thunk Function');
-  console.log('Thafgawghwqerherhharon');
   const response = await api.get(APIRoute.Films);
-
   dispatch(loadFilms(response.data));
 });
 

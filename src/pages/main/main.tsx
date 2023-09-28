@@ -21,10 +21,9 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     store.dispatch(fetchFilmsAction()).then(() => {
-      setIsLoading(false)
+      setIsLoading(false);
     });
-    console.log(store.getState().previewFilms)
-  }, [])
+  }, []);
   return (
     <>
       <section className="film-card">

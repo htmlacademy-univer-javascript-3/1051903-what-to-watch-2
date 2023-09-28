@@ -16,4 +16,10 @@ export const loadFilms = createAction('moviepage/loadFilms', (films) => {
   return {
     payload: films,
   };
-})
+});
+
+export const setAuthStatus = createAction('user/setAuthStatus', (auth) => {
+  return {
+    payload: auth,
+  };
+});

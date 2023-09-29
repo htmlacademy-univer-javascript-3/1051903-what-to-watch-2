@@ -1,12 +1,26 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute, AuthorizationStatus } from '../const';
-import { loadFilms, setAuthStatus } from './action';
+import { loadFilms, loadSelectedFilm, setAuthStatus } from './action';
 import { store } from '.';
 import { AxiosInstance } from 'axios';
 import { dropToken, saveToken } from '../components/services/token';
 
 type AppDispatch = typeof store.dispatch;
 type State = ReturnType<typeof store.getState>;
+
+export const fetchSelectedFilmAction = createAsyncThunk<void, any, {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/fetchFilms', async ({ filmId }, { dispatch, extra: api }) => {
+  try {
+    const response = await api.get(APIRoute.SelectFilm + filmId);
+    dispatch(loadSelectedFilm(response.data));
+  } catch (error) {
+    console.log(error)
+  }
+});
 
 export const fetchFilmsAction = createAsyncThunk<void, undefined, {
     dispatch: AppDispatch;
@@ -60,3 +74,4 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dispatch(setAuthStatus(AuthorizationStatus.NoAuth));
   }
 );
+

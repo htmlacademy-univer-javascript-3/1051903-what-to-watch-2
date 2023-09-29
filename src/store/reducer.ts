@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../const';
 import { TFilm } from '../mocks/films';
-import { changeGenre, loadFilms, setAuthStatus, setMovies } from './action';
+import { changeGenre, loadFilms, loadSelectedFilm, setAuthStatus, setMovies } from './action';
 
 export const films: TFilm[] = [
   {
@@ -670,6 +670,7 @@ const initialState = {
   },],
   genres: genres,
   previewFilms:[],
+  selectedFilm: {},
   authorizationStatus: AuthorizationStatus.Unknown,
 };
 
@@ -687,7 +688,9 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setAuthStatus, (state, action) => {
       state.authorizationStatus = action.payload;
     })
-    
+    .addCase(loadSelectedFilm, (state, action) => {
+      state.selectedFilm = action.payload;
+    })
 });
 
 export const selectFilmsByGenre = (genre: string, films: TFilm[]) => {

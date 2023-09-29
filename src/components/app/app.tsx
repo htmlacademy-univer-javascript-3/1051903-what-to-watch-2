@@ -11,7 +11,6 @@ import PageNotFound from '../../pages/404-not-found/404-not-found';
 import PrivateRoute from '../private-root/private-root';
 import { TFilm } from '../../mocks/films';
 import { checkAuthAction } from '../../store/api-actions';
-import { store } from '../../store';
 
 type AppProps = {
   filmTitle: string;
@@ -26,7 +25,6 @@ type AppProps = {
 const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, auth}: AppProps) => {
   useEffect(() => {
     checkAuthAction();
-    console.log(store.getState().authorizationStatus)
   }, [])
   return (
     <BrowserRouter>

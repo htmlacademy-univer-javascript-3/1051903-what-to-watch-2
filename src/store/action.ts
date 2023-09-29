@@ -23,3 +23,9 @@ export const setAuthStatus = createAction('user/setAuthStatus', (auth) => {
     payload: auth,
   };
 });
+
+export const loadSelectedFilm = createAction('moviepage/loadSelectedFilm', (film) => {
+  return {
+    payload: film,
+  }
+})

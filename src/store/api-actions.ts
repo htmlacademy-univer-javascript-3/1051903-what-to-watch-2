@@ -13,9 +13,10 @@ export const fetchSelectedFilmAction = createAsyncThunk<void, any, {
     state: State;
     extra: AxiosInstance;
   }
->('data/fetchFilms', async ({ filmId }, { dispatch, extra: api }) => {
+>('data/fetchFilms', async (filmId, { dispatch, extra: api }) => {
   try {
-    const response = await api.get(APIRoute.SelectFilm + filmId);
+    debugger;
+    const response = await api.get(APIRoute.SelectFilm.replace(':filmId', `${filmId}`));
     dispatch(loadSelectedFilm(response.data));
   } catch (error) {
     console.log(error)

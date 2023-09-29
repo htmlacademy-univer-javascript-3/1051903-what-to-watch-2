@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import MoviePageReviews from '../../pages/movie-page-reviews/movie-page-reviews';
 import MoviePageDetails from '../../pages/movie-page-details/movie-page-details';
 import MoviePageOverview from '../../pages/movie-page-overview/movie-page-overview';
-import { TFilm } from '../../mocks/films';
+import MoviePageReviews from '../../pages/movie-page-reviews/movie-page-reviews';
+import { Film } from '../../mocks/films';
 
 type TabsProps = {
-  selectedFilm: any;
+  selectedFilm: Film;
 };
 
 const Tabs = ({ selectedFilm }: TabsProps) => {

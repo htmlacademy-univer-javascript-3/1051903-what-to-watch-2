@@ -2,6 +2,9 @@ import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import VideoPlayer from '../video-player/video-player';
+import { store } from '../../store';
+import { loadSelectedFilm } from '../../store/action';
+import { fetchSelectedFilmAction } from '../../store/api-actions';
 
 type CardProps = {
   film: any;
@@ -30,6 +33,9 @@ const Card = ({ film }: CardProps) => {
       className="small-film-card catalog__films-card"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={() => {
+        store.dispatch(fetchSelectedFilmAction(film.id))
+      }}
     >
       <Link
         to={AppRoute.Film.replace(':id', `${film.id}`)}

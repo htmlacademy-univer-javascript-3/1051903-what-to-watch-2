@@ -20,9 +20,10 @@ type AppProps = {
   films: TFilm[];
   genres: string[];
   selectFilmsByGenre: (genre: string, films: TFilm[]) => TFilm[];
+  auth: string;
 };
 
-const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, }: AppProps) => {
+const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, auth}: AppProps) => {
   useEffect(() => {
     checkAuthAction();
     console.log(store.getState().authorizationStatus)
@@ -40,6 +41,7 @@ const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, 
               releaseDate={releaseDate}
               genres={genres}
               selectFilmsByGenre={selectFilmsByGenre}
+              auth = {auth}
             />
           }
         ></Route>

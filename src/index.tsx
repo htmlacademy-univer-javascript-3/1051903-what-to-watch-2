@@ -19,6 +19,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App
+        auth = {store.getState().authorizationStatus}
         films={store.getState().films}
         filmTitle={Settings.filmTitle}
         genre={Settings.genre}

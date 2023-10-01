@@ -5,7 +5,7 @@ import { AppRoute } from '../../const';
 import { Film, TFilm } from '../../mocks/films';
 import { store } from '../../store';
 import PageNotFound from '../404-not-found/404-not-found';
-import { State, fetchSelectedFilmAction, fetchMoreLikeFilmsAction } from '../../store/api-actions';
+import { State, fetchSelectedFilmAction, fetchMoreLikeFilmsAction, fetchCommentsAction } from '../../store/api-actions';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -29,8 +29,9 @@ const MoviePage = () => {
     const moreLikeFilms: Films[] = useSelector((state: State) => state.moreLike);
     useEffect(() => {
       store.dispatch(fetchSelectedFilmAction(id));
-      store.dispatch(fetchMoreLikeFilmsAction(id))
-    }, [id])
+      store.dispatch(fetchMoreLikeFilmsAction(id));
+      store.dispatch(fetchCommentsAction(id));
+    }, [id]);
     return (
       <>
         <section className="film-card film-card--full">
@@ -131,7 +132,7 @@ const MoviePage = () => {
         </section>
 
         <div className="page-content">
-          <MoreLikeThis films={moreLikeFilms}/>
+          <MoreLikeThis films={moreLikeFilms} />
 
           <footer className="page-footer">
             <div className="logo">

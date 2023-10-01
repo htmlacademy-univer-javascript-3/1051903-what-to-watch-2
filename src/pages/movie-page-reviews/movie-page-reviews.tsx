@@ -11,6 +11,10 @@ type Comment = {
 
 const MoviePageReviews = () => {
   const comments: Comment[] = useSelector((state: State) => state.comments);
+  const normalizeDate = (date: string) => {
+    const dateObject = new Date(date);
+    return dateObject.toLocaleDateString();
+  }
   return (
     <div className="film-card__reviews film-card__row">
     <div className="film-card__reviews-col">
@@ -24,7 +28,7 @@ const MoviePageReviews = () => {
           <footer className="review__details">
             <cite className="review__author">{comment.user}</cite>
             <time className="review__date" dateTime="2016-12-24">
-              {comment.date}
+              {normalizeDate(comment.date)}
             </time>
           </footer>
         </blockquote>

@@ -6,8 +6,9 @@ import { Film, TFilm } from '../../mocks/films';
 import { store } from '../../store';
 import PageNotFound from '../404-not-found/404-not-found';
 import { State, fetchSelectedFilmAction, fetchMoreLikeFilmsAction, fetchCommentsAction } from '../../store/api-actions';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import Spinner from '../../components/spinner/spinner';
 
 
 
@@ -25,13 +26,22 @@ const MoviePage = () => {
   if (id === undefined || !films.find((film) => film.id === id)) {
     return <PageNotFound />;
   } else {
+    const [isLoading, setIsLoading] = useState(true);
     const film: Film = useSelector((state: State) => state.selectedFilm);
-    const moreLikeFilms: Films[] = useSelector((state: State) => state.moreLike);
+    const moreLikeFilms: Films[] = useSelector(
+      (state: State) => state.moreLike
+    );
     useEffect(() => {
-      store.dispatch(fetchSelectedFilmAction(id));
-      store.dispatch(fetchMoreLikeFilmsAction(id));
-      store.dispatch(fetchCommentsAction(id));
+      store.dispatch(fetchSelectedFilmAction(id)).then(() => {
+        store.dispatch(fetchMoreLikeFilmsAction(id)).then(() => {
+          store.dispatch(fetchCommentsAction(id)).then(() => setIsLoading(false));
+        });
+      });
+      return setIsLoading(true);
     }, [id]);
+    if (isLoading) {
+      return <Spinner />;
+    }
     return (
       <>
         <section className="film-card film-card--full">

@@ -23,7 +23,7 @@ type MoreLike = {
 
 const MoviePage = ({ films }: MoviePageProps) => {
   const { id } = useParams();
-  if (id === undefined) {
+  if (id === undefined || !films.find((film) => film.id === id)) {
     return <PageNotFound />;
   } else {
     const film: Film = useSelector((state: State) => state.selectedFilm);

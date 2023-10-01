@@ -16,17 +16,12 @@ type MainProps = {
   genres: string[];
   selectFilmsByGenre: (genre: string, films: TFilm[]) => TFilm[];
   auth: string;
+  isLoading: boolean;
 };
 
-const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, auth }: MainProps) => {
+const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, auth, isLoading }: MainProps) => {
   const [visibleFilms, setVisibleFilms] = useState(8);
   const addMoreFilms = () => setVisibleFilms(visibleFilms + 8);
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    store.dispatch(fetchFilmsAction()).then(() => {
-      setIsLoading(false);
-    });
-  }, []);
   return (
     <>
       <section className="film-card">

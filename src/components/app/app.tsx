@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { AppRoute, AuthorizationStatus } from '../../const';
 import Main from '../../pages/main/main';
 import SignIn from '../../pages/sign-in/sign-in';
@@ -10,7 +10,8 @@ import Player from '../../pages/player/player';
 import PageNotFound from '../../pages/404-not-found/404-not-found';
 import PrivateRoute from '../private-root/private-root';
 import { TFilm } from '../../mocks/films';
-import { checkAuthAction } from '../../store/api-actions';
+import { checkAuthAction, fetchFilmsAction } from '../../store/api-actions';
+import { store } from '../../store';
 
 type AppProps = {
   filmTitle: string;
@@ -23,9 +24,13 @@ type AppProps = {
 };
 
 const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, auth}: AppProps) => {
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     checkAuthAction();
-  }, [])
+    store.dispatch(fetchFilmsAction()).then(() => {
+      setIsLoading(false);
+    });
+  }, []);
   return (
     <BrowserRouter>
       <Routes>
@@ -40,6 +45,7 @@ const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, 
               genres={genres}
               selectFilmsByGenre={selectFilmsByGenre}
               auth = {auth}
+              isLoading = {isLoading}
             />
           }
         ></Route>
@@ -54,7 +60,7 @@ const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, 
         ></Route>
         <Route
           path={AppRoute.Film}
-          element={<MoviePage films={films} />}
+          element={<MoviePage/>}
         ></Route>
         <Route
           path={AppRoute.AddReview}

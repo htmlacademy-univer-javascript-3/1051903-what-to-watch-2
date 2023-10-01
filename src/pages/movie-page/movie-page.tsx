@@ -9,11 +9,9 @@ import { State, fetchSelectedFilmAction, fetchmoreLikeFilmsAction } from '../../
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-type MoviePageProps = {
-  films: TFilm[];
-};
 
-type MoreLike = {
+
+type Films = {
   id: string;
   name: string;
   previewImage: string;
@@ -21,18 +19,18 @@ type MoreLike = {
   genre: string;
 };
 
-const MoviePage = ({ films }: MoviePageProps) => {
+const MoviePage = () => {
   const { id } = useParams();
+  const films: Films[] = useSelector((state: State) => state.previewFilms) 
   if (id === undefined || !films.find((film) => film.id === id)) {
     return <PageNotFound />;
   } else {
     const film: Film = useSelector((state: State) => state.selectedFilm);
-    const moreLikeFilms: MoreLike[] = useSelector((state: State) => state.moreLike);
+    const moreLikeFilms: Films[] = useSelector((state: State) => state.moreLike);
     useEffect(() => {
       store.dispatch(fetchSelectedFilmAction(id));
       store.dispatch(fetchmoreLikeFilmsAction(id))
     }, [id])
-    console.log(film)
     return (
       <>
         <section className="film-card film-card--full">
@@ -133,7 +131,7 @@ const MoviePage = ({ films }: MoviePageProps) => {
         </section>
 
         <div className="page-content">
-          <MoreLikeThis films={moreLikeFilms} filmGenre={film.genre}/>
+          <MoreLikeThis films={moreLikeFilms}/>
 
           <footer className="page-footer">
             <div className="logo">
@@ -153,11 +151,5 @@ const MoviePage = ({ films }: MoviePageProps) => {
     );
   }
 };
-
-// const mapStateToProps = (state: any) => {
-//   return {
-//     film: state.selectedFilm
-//   }
-// }
 
 export default MoviePage;

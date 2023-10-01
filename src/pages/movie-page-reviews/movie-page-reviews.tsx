@@ -1,7 +1,7 @@
-import { TFilm } from '../../mocks/films';
+import { Film } from '../../mocks/films';
 
 type MoviePageReviewsProps = {
-  selectedFilm: TFilm;
+  selectedFilm: Film;
 };
 
 const MoviePageReviews = ({ selectedFilm }: MoviePageReviewsProps) => (

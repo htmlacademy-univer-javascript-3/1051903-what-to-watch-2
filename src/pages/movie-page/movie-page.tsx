@@ -1,11 +1,13 @@
 import { Link, useParams } from 'react-router-dom';
+import MoreLikeThis from '../../components/more-like-this/more-like-this';
 import Tabs from '../../components/tabs/tabs';
 import { AppRoute } from '../../const';
 import { Film, TFilm } from '../../mocks/films';
-import PageNotFound from '../404-not-found/404-not-found';
-import MoreLikeThis from '../../components/more-like-this/more-like-this';
 import { store } from '../../store';
-import { fetchSelectedFilmAction } from '../../store/api-actions';
+import PageNotFound from '../404-not-found/404-not-found';
+import { State, fetchSelectedFilmAction } from '../../store/api-actions';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 type MoviePageProps = {
   films: TFilm[];
@@ -17,8 +19,10 @@ const MoviePage = ({ films }: MoviePageProps) => {
     return <PageNotFound />;
   } else {
     const selectedFilm = films[0]; //старый массив
-    // store.dispatch(fetchSelectedFilmAction(id));
-    const film: Film = store.getState().selectedFilm;
+    const film: Film = useSelector((state: State) => state.selectedFilm);
+    useEffect(() => {
+      store.dispatch(fetchSelectedFilmAction(id));
+    }, [id])
     console.log(film)
     return (
       <>
@@ -76,7 +80,7 @@ const MoviePage = ({ films }: MoviePageProps) => {
                       <use xlinkHref="#play-s"></use>
                     </svg>
                     <Link
-                      to={AppRoute.Player.replace(':id', `${selectedFilm?.id}`)}
+                      to={AppRoute.Player.replace(':id', `${film.id}`)}
                       style={{ textDecoration: 'none', color: '#eee5b5' }}
                     >
                       <span>Play</span>
@@ -140,5 +144,11 @@ const MoviePage = ({ films }: MoviePageProps) => {
     );
   }
 };
+
+// const mapStateToProps = (state: any) => {
+//   return {
+//     film: state.selectedFilm
+//   }
+// }
 
 export default MoviePage;

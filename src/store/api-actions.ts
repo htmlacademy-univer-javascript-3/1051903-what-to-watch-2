@@ -5,8 +5,8 @@ import { store } from '.';
 import { AxiosInstance } from 'axios';
 import { dropToken, saveToken } from '../components/services/token';
 
-type AppDispatch = typeof store.dispatch;
-type State = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export type State = ReturnType<typeof store.getState>;
 
 export const fetchSelectedFilmAction = createAsyncThunk<void, any, {
     dispatch: AppDispatch;
@@ -15,12 +15,27 @@ export const fetchSelectedFilmAction = createAsyncThunk<void, any, {
   }
 >('data/fetchFilms', async (filmId, { dispatch, extra: api }) => {
   try {
-    debugger;
     const response = await api.get(APIRoute.SelectFilm.replace(':filmId', `${filmId}`));
     dispatch(loadSelectedFilm(response.data));
+    return response.data
   } catch (error) {
     console.log(error)
   }
+});
+
+export const moreLikeFilmAction = createAsyncThunk<void, any, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}
+>('data/moreLikeFilm', async (filmId, { dispatch, extra: api }) => {
+try {
+  const response = await api.get(APIRoute.SelectFilm.replace(':filmId', `${filmId}`));
+  dispatch(loadSelectedFilm(response.data));
+  return response.data
+} catch (error) {
+  console.log(error)
+}
 });
 
 export const fetchFilmsAction = createAsyncThunk<void, undefined, {

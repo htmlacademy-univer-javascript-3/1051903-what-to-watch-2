@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute, AuthorizationStatus } from '../const';
-import { loadFilms, loadMoreLike, loadSelectedFilm, setAuthStatus } from './action';
+import { loadComments, loadFilms, loadMoreLike, loadSelectedFilm, setAuthStatus } from './action';
 import { store } from '.';
 import { AxiosInstance } from 'axios';
 import { dropToken, saveToken } from '../components/services/token';
@@ -8,7 +8,7 @@ import { dropToken, saveToken } from '../components/services/token';
 export type AppDispatch = typeof store.dispatch;
 export type State = ReturnType<typeof store.getState>;
 
-export const fetchSelectedFilmAction = createAsyncThunk<void, any, {
+export const fetchSelectedFilmAction = createAsyncThunk<void, string, {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
@@ -22,7 +22,7 @@ export const fetchSelectedFilmAction = createAsyncThunk<void, any, {
   }
 });
 
-export const fetchmoreLikeFilmsAction = createAsyncThunk<void, any, {
+export const fetchMoreLikeFilmsAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -31,6 +31,20 @@ export const fetchmoreLikeFilmsAction = createAsyncThunk<void, any, {
 try {
   const response = await api.get(APIRoute.MoreLike.replace(':filmId', `${filmId}`));
   dispatch(loadMoreLike(response.data));
+} catch (error) {
+  console.log(error)
+}
+});
+
+export const fetchCommentsAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}
+>('data/moreLikeFilm', async (filmId, { dispatch, extra: api }) => {
+try {
+  const response = await api.get(APIRoute.FilmComments.replace(':filmId', `${filmId}`));
+  dispatch(loadComments(response.data));
 } catch (error) {
   console.log(error)
 }

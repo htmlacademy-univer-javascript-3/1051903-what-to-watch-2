@@ -28,10 +28,16 @@ export const loadSelectedFilm = createAction('moviepage/loadSelectedFilm', (film
   return {
     payload: film,
   }
-})
+});
 
 export const loadMoreLike = createAction('moviepage/loadMoreLike', (films) => {
   return {
     payload: films,
   }
-})
+});
+
+export const loadComments = createAction('moviepage/loadComments', (comments) => {
+  return {
+    payload: comments,
+  }
+});

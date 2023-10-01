@@ -29,3 +29,9 @@ export const loadSelectedFilm = createAction('moviepage/loadSelectedFilm', (film
     payload: film,
   }
 })
+
+export const loadMoreLike = createAction('moviepage/loadMoreLike', (films) => {
+  return {
+    payload: films,
+  }
+})

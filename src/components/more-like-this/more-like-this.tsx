@@ -1,7 +1,13 @@
-import { TFilm } from '../../mocks/films';
+type MoreLike = {
+  id: string;
+  name: string;
+  previewImage: string;
+  previewVideoLink: string;
+  genre: string;
+};
 
 type MoreLikeThisProps = {
-  films: TFilm[];
+  films: MoreLike[];
   filmGenre: string;
 };
 
@@ -13,18 +19,21 @@ const MoreLikeThis = ({ films, filmGenre }: MoreLikeThisProps) => {
 
       <div className="catalog__films-list">
         {movieList.map((film) => (
-          <article className="small-film-card catalog__films-card" key={film.filmName}>
+          <article
+            className="small-film-card catalog__films-card"
+            key={film.name}
+          >
             <div className="small-film-card__image">
               <img
-                src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-                alt="Fantastic Beasts: The Crimes of Grindelwald"
+                src={film.previewImage}
+                alt={film.name}
                 width="280"
                 height="175"
               />
             </div>
             <h3 className="small-film-card__title">
               <a className="small-film-card__link" href="film-page.html">
-                {film.filmName}
+                {film.name}
               </a>
             </h3>
           </article>

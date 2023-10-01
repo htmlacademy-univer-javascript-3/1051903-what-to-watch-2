@@ -5,7 +5,7 @@ import { AppRoute } from '../../const';
 import { Film, TFilm } from '../../mocks/films';
 import { store } from '../../store';
 import PageNotFound from '../404-not-found/404-not-found';
-import { State, fetchSelectedFilmAction } from '../../store/api-actions';
+import { State, fetchSelectedFilmAction, fetchmoreLikeFilmsAction } from '../../store/api-actions';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -13,15 +13,24 @@ type MoviePageProps = {
   films: TFilm[];
 };
 
+type MoreLike = {
+  id: string;
+  name: string;
+  previewImage: string;
+  previewVideoLink: string;
+  genre: string;
+};
+
 const MoviePage = ({ films }: MoviePageProps) => {
   const { id } = useParams();
   if (id === undefined) {
     return <PageNotFound />;
   } else {
-    const selectedFilm = films[0]; //старый массив
     const film: Film = useSelector((state: State) => state.selectedFilm);
+    const moreLikeFilms: MoreLike[] = useSelector((state: State) => state.moreLike);
     useEffect(() => {
       store.dispatch(fetchSelectedFilmAction(id));
+      store.dispatch(fetchmoreLikeFilmsAction(id))
     }, [id])
     console.log(film)
     return (
@@ -124,7 +133,7 @@ const MoviePage = ({ films }: MoviePageProps) => {
         </section>
 
         <div className="page-content">
-          <MoreLikeThis films={films} filmGenre={film.genre}/>
+          <MoreLikeThis films={moreLikeFilms} filmGenre={film.genre}/>
 
           <footer className="page-footer">
             <div className="logo">

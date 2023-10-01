@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute, AuthorizationStatus } from '../const';
-import { loadFilms, loadSelectedFilm, setAuthStatus } from './action';
+import { loadFilms, loadMoreLike, loadSelectedFilm, setAuthStatus } from './action';
 import { store } from '.';
 import { AxiosInstance } from 'axios';
 import { dropToken, saveToken } from '../components/services/token';
@@ -17,22 +17,20 @@ export const fetchSelectedFilmAction = createAsyncThunk<void, any, {
   try {
     const response = await api.get(APIRoute.SelectFilm.replace(':filmId', `${filmId}`));
     dispatch(loadSelectedFilm(response.data));
-    return response.data
   } catch (error) {
     console.log(error)
   }
 });
 
-export const moreLikeFilmAction = createAsyncThunk<void, any, {
+export const fetchmoreLikeFilmsAction = createAsyncThunk<void, any, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }
 >('data/moreLikeFilm', async (filmId, { dispatch, extra: api }) => {
 try {
-  const response = await api.get(APIRoute.SelectFilm.replace(':filmId', `${filmId}`));
-  dispatch(loadSelectedFilm(response.data));
-  return response.data
+  const response = await api.get(APIRoute.MoreLike.replace(':filmId', `${filmId}`));
+  dispatch(loadMoreLike(response.data));
 } catch (error) {
   console.log(error)
 }

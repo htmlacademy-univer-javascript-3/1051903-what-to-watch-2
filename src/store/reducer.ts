@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../const';
 import { TFilm } from '../mocks/films';
-import { changeGenre, loadFilms, loadSelectedFilm, setAuthStatus, setMovies } from './action';
+import { changeGenre, loadFilms, loadMoreLike, loadSelectedFilm, setAuthStatus, setMovies } from './action';
 
 export const films: TFilm[] = [
   {
@@ -334,10 +334,13 @@ export const films: TFilm[] = [
 
 export const genres: string[] = [
   'All genres',
-  'Драма',
-  'Триллер',
-  'Комедия',
-  'Фэнтези',
+  'Fantasy',
+  'Drama',
+  'Thriller',
+  'Comedy',
+  'Crime',
+  'Adventure',
+  'Action',
 ];
 
 const initialState = {
@@ -687,6 +690,7 @@ const initialState = {
     released: 0,
     isFavorite: false,
   },
+  moreLike: [],
   authorizationStatus: AuthorizationStatus.Unknown,
 };
 
@@ -706,6 +710,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadSelectedFilm, (state, action) => {
       state.selectedFilm = action.payload;
+    })
+    .addCase(loadMoreLike, (state, action) => {
+      state.moreLike = action.payload;
     })
 });
 

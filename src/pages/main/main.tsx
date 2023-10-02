@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import GenreList from '../../components/genre-list/genre-list';
 import ShowMore from '../../components/show-more/show-more';
-import { TFilm } from '../../mocks/films';
-import { store } from '../../store';
-import { fetchFilmsAction } from '../../store/api-actions';
 import Spinner from '../../components/spinner/spinner';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { Link } from 'react-router-dom';
+import { TFilm } from '../../mocks/films';
+import Logo from '../../components/logo/logo';
 
 type MainProps = {
   filmTitle: string;
@@ -35,13 +34,7 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
-          <div className="logo">
-            <a className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo/>
           {auth === AuthorizationStatus.Auth ? (
             <ul className="user-block">
               <li className="user-block__item">
@@ -59,7 +52,7 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
               </li>
             </ul>
           ) : (
-            <Link to={AppRoute.SignIn}>
+            <Link to={AppRoute.SignIn} style={{textDecoration: `none`, marginLeft: `auto`}}>
               <ul className="user-block">
                 <li className="user-block__item">
                   <a className="user-block__link">Sign In</a>

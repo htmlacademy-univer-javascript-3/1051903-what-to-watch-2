@@ -62,7 +62,7 @@ const Tabs = ({ selectedFilm }: TabsProps) => {
         <MoviePageDetails selectedFilm={selectedFilm} />
       )}
       {activeButton === 'Reviews' && (
-        <MoviePageReviews selectedFilm={selectedFilm} />
+        <MoviePageReviews/>
       )}
     </div>
   );

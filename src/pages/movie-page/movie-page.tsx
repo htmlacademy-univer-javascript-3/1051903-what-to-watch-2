@@ -1,14 +1,15 @@
-import { Link, useParams } from 'react-router-dom';
-import MoreLikeThis from '../../components/more-like-this/more-like-this';
-import Tabs from '../../components/tabs/tabs';
-import { AppRoute } from '../../const';
-import { Film, TFilm } from '../../mocks/films';
-import { store } from '../../store';
-import PageNotFound from '../404-not-found/404-not-found';
-import { State, fetchSelectedFilmAction, fetchMoreLikeFilmsAction, fetchCommentsAction } from '../../store/api-actions';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import MoreLikeThis from '../../components/more-like-this/more-like-this';
 import Spinner from '../../components/spinner/spinner';
+import Tabs from '../../components/tabs/tabs';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { Film } from '../../mocks/films';
+import { store } from '../../store';
+import { State, fetchCommentsAction, fetchMoreLikeFilmsAction, fetchSelectedFilmAction } from '../../store/api-actions';
+import PageNotFound from '../404-not-found/404-not-found';
+import Logo from '../../components/logo/logo';
 
 
 
@@ -22,15 +23,16 @@ type Films = {
 
 const MoviePage = () => {
   const { id } = useParams();
-  const films: Films[] = useSelector((state: State) => state.previewFilms) 
+  const films: Films[] = useSelector((state: State) => state.previewFilms);
+  
   if (id === undefined || !films.find((film) => film.id === id)) {
     return <PageNotFound />;
   } else {
     const [isLoading, setIsLoading] = useState(true);
     const film: Film = useSelector((state: State) => state.selectedFilm);
-    const moreLikeFilms: Films[] = useSelector(
-      (state: State) => state.moreLike
-    );
+    const moreLikeFilms: Films[] = useSelector((state: State) => state.moreLike);
+    const authStatus = useSelector((state: State) => state.authorizationStatus);
+
     useEffect(() => {
       store.dispatch(fetchSelectedFilmAction(id)).then(() => {
         store.dispatch(fetchMoreLikeFilmsAction(id)).then(() => {
@@ -39,9 +41,11 @@ const MoviePage = () => {
       });
       return setIsLoading(true);
     }, [id]);
+
     if (isLoading) {
       return <Spinner />;
     }
+
     return (
       <>
         <section className="film-card film-card--full">
@@ -56,29 +60,35 @@ const MoviePage = () => {
             <h1 className="visually-hidden">WTW</h1>
 
             <header className="page-header film-card__head">
-              <div className="logo">
-                <a href="main.html" className="logo__link">
-                  <span className="logo__letter logo__letter--1">W</span>
-                  <span className="logo__letter logo__letter--2">T</span>
-                  <span className="logo__letter logo__letter--3">W</span>
-                </a>
-              </div>
-
-              <ul className="user-block">
-                <li className="user-block__item">
-                  <div className="user-block__avatar">
-                    <img
-                      src="img/avatar.jpg"
-                      alt="User avatar"
-                      width="63"
-                      height="63"
-                    />
-                  </div>
-                </li>
-                <li className="user-block__item">
-                  <a className="user-block__link">Sign out</a>
-                </li>
-              </ul>
+              <Logo />
+              {authStatus === AuthorizationStatus.Auth ? (
+                <ul className="user-block">
+                  <li className="user-block__item">
+                    <div className="user-block__avatar">
+                      <img
+                        src="img/avatar.jpg"
+                        alt="User avatar"
+                        width="63"
+                        height="63"
+                      />
+                    </div>
+                  </li>
+                  <li className="user-block__item">
+                    <a className="user-block__link">Sign out</a>
+                  </li>
+                </ul>
+              ) : (
+                <Link
+                  to={AppRoute.SignIn}
+                  style={{ textDecoration: `none`, marginLeft: `auto` }}
+                >
+                  <ul className="user-block">
+                    <li className="user-block__item">
+                      <a className="user-block__link">Sign In</a>
+                    </li>
+                  </ul>
+                </Link>
+              )}
             </header>
 
             <div className="film-card__wrap">
@@ -114,12 +124,14 @@ const MoviePage = () => {
                     <span>My list</span>
                     <span className="film-card__count">{films.length}</span>
                   </button>
-                  <Link
-                    to={AppRoute.AddReview.replace(':id', `${film.id}`)}
-                    className="btn film-card__button"
-                  >
-                    Add review
-                  </Link>
+                  {authStatus === AuthorizationStatus.Auth ? (
+                    <Link
+                      to={AppRoute.AddReview.replace(':id', `${film.id}`)}
+                      className="btn film-card__button"
+                    >
+                      Add review
+                    </Link>
+                  ) : null}
                 </div>
               </div>
             </div>

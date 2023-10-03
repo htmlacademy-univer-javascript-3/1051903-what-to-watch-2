@@ -1,13 +1,20 @@
 import { useState } from "react";
 import { store } from "../../store";
-import { loginActon } from "../../store/api-actions";
-
+import { State, loginActon } from "../../store/api-actions";
+import { useSelector } from 'react-redux';
+import { AppRoute, AuthorizationStatus } from "../../const";
+import { Navigate, useNavigate } from "react-router-dom";
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const authStatus = useSelector((state: State) => state.authorizationStatus)
   const handleSignIn = (e: any) => {
     e.preventDefault();
     store.dispatch(loginActon({login : email, password}))
+  }
+  if (authStatus === AuthorizationStatus.Auth) {
+    const navigate = useNavigate();
+    navigate(-1);      
   }
   return (
     <div className="user-page">

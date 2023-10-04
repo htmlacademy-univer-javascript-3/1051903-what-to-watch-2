@@ -7,13 +7,15 @@ import { Navigate, useNavigate } from "react-router-dom";
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const authStatus = useSelector((state: State) => state.authorizationStatus)
+  const authStatus = useSelector((state: State) => state.authorizationStatus);
+
   const handleSignIn = (e: any) => {
     e.preventDefault();
     store.dispatch(loginActon({login : email, password}))
   }
+
+  const navigate = useNavigate();
   if (authStatus === AuthorizationStatus.Auth) {
-    const navigate = useNavigate();
     navigate(-1);      
   }
   return (

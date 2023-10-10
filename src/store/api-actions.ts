@@ -1,9 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute, AuthorizationStatus } from '../const';
-import { loadComments, loadFilms, loadMoreLike, loadSelectedFilm, setAuthStatus } from './action';
+import { loadComments, loadFilms, loadMoreLike, loadSelectedFilm, setAuthStatus, setUserData } from './action';
 import { store } from '.';
 import { AxiosInstance } from 'axios';
 import { dropToken, saveToken } from '../components/services/token';
+
 
 export type AppDispatch = typeof store.dispatch;
 export type State = ReturnType<typeof store.getState>;
@@ -83,9 +84,16 @@ export const loginActon = createAsyncThunk<void, any, {
 >(
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    const { data: { token }} = await api.post(APIRoute.SignIn, { email, password });
-    saveToken(token);
+    const response = (await api.post(APIRoute.SignIn, { email, password }));
+    saveToken(response.data.token);
     dispatch(setAuthStatus(AuthorizationStatus.Auth));
+    dispatch(
+      setUserData({
+        email: response.data.email,
+        name: response.data.name,
+        avatarUrl: response.data.avatarUrl,
+      })
+    );
   }
 );
 
@@ -103,3 +111,4 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   }
 );
 
+ 

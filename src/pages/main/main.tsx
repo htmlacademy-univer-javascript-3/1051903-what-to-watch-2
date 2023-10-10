@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import GenreList from '../../components/genre-list/genre-list';
 import ShowMore from '../../components/show-more/show-more';
 import Spinner from '../../components/spinner/spinner';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { TFilm } from '../../mocks/films';
 import Logo from '../../components/logo/logo';
+import { useSelector } from 'react-redux';
+import { State, logoutAction } from '../../store/api-actions';
+import { store } from '../../store';
 
 type MainProps = {
   filmTitle: string;
@@ -14,13 +17,27 @@ type MainProps = {
   films: TFilm[];
   genres: string[];
   selectFilmsByGenre: (genre: string, films: TFilm[]) => TFilm[];
-  auth: string;
   isLoading: boolean;
 };
 
-const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, auth, isLoading }: MainProps) => {
+type User = {
+  email: string;
+  name: string;
+  avatarUrl: string;
+};
+
+const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, isLoading }: MainProps) => {
   const [visibleFilms, setVisibleFilms] = useState(8);
   const addMoreFilms = () => setVisibleFilms(visibleFilms + 8);
+  const user: User = useSelector((state:State) => state.user);
+  const authStatus: string = useSelector((state:State) => state.authorizationStatus);
+
+  const handleSignOut = () => {
+    store.dispatch(logoutAction());
+    const navigate = useNavigate();
+    navigate(AppRoute.Main);
+  }
+
   return (
     <>
       <section className="film-card">
@@ -35,12 +52,13 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
 
         <header className="page-header film-card__head">
           <Logo/>
-          {auth === AuthorizationStatus.Auth ? (
+          {authStatus === AuthorizationStatus.Auth ? (
             <ul className="user-block">
+              <div className="user-name" style={{marginRight: '20px'}}>{user.name}</div>
               <li className="user-block__item">
                 <div className="user-block__avatar">
                   <img
-                    src="img/avatar.jpg"
+                    src={user.avatarUrl}
                     alt="User avatar"
                     width="63"
                     height="63"
@@ -48,7 +66,7 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
                 </div>
               </li>
               <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
+                <a className="user-block__link" onClick={handleSignOut}>Sign out</a>
               </li>
             </ul>
           ) : (

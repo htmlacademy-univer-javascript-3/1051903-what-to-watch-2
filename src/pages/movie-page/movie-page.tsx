@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import MoreLikeThis from '../../components/more-like-this/more-like-this';
 import Spinner from '../../components/spinner/spinner';
 import Tabs from '../../components/tabs/tabs';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { Film } from '../../mocks/films';
 import { store } from '../../store';
-import { State, fetchCommentsAction, fetchMoreLikeFilmsAction, fetchSelectedFilmAction } from '../../store/api-actions';
+import { State, fetchCommentsAction, fetchMoreLikeFilmsAction, fetchSelectedFilmAction, logoutAction } from '../../store/api-actions';
 import PageNotFound from '../404-not-found/404-not-found';
 import Logo from '../../components/logo/logo';
 
@@ -21,6 +21,12 @@ type Films = {
   genre: string;
 };
 
+type User = {
+  email: string;
+  name: string;
+  avatarUrl: string;
+};
+
 const MoviePage = () => {
   const { id } = useParams();
   const films: Films[] = useSelector((state: State) => state.previewFilms);
@@ -32,6 +38,13 @@ const MoviePage = () => {
     const film: Film = useSelector((state: State) => state.selectedFilm);
     const moreLikeFilms: Films[] = useSelector((state: State) => state.moreLike);
     const authStatus = useSelector((state: State) => state.authorizationStatus);
+    const user: User = useSelector((state: State) => state.user);
+
+    const handleSignOut = () => {
+      store.dispatch(logoutAction());
+      const navigate = useNavigate();
+      navigate(AppRoute.Main);
+    }
 
     useEffect(() => {
       store.dispatch(fetchSelectedFilmAction(id)).then(() => {
@@ -40,7 +53,7 @@ const MoviePage = () => {
         });
       });
       return setIsLoading(true);
-    }, [id]);
+    }, []);
 
     if (isLoading) {
       return <Spinner />;
@@ -63,10 +76,11 @@ const MoviePage = () => {
               <Logo />
               {authStatus === AuthorizationStatus.Auth ? (
                 <ul className="user-block">
+                  <div className="user-name" style={{marginRight:'20px'}}>{user.name}</div>
                   <li className="user-block__item">
                     <div className="user-block__avatar">
                       <img
-                        src="img/avatar.jpg"
+                        src={user.avatarUrl}
                         alt="User avatar"
                         width="63"
                         height="63"
@@ -74,7 +88,7 @@ const MoviePage = () => {
                     </div>
                   </li>
                   <li className="user-block__item">
-                    <a className="user-block__link">Sign out</a>
+                    <a className="user-block__link" onClick={handleSignOut}>Sign out</a>
                   </li>
                 </ul>
               ) : (

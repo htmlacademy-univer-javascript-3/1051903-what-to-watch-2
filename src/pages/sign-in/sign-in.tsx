@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import { AppRoute, AuthorizationStatus } from "../../const";
 import { Navigate, useNavigate } from "react-router-dom";
 const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('Oliver.conner@gmail.com');
+  const [password, setPassword] = useState('password1');
   const authStatus = useSelector((state: State) => state.authorizationStatus);
 
   const handleSignIn = (e: any) => {
@@ -16,7 +16,7 @@ const SignIn = () => {
 
   const navigate = useNavigate();
   if (authStatus === AuthorizationStatus.Auth) {
-    navigate(-1);      
+    navigate(AppRoute.Main);      
   }
   return (
     <div className="user-page">
@@ -69,7 +69,7 @@ const SignIn = () => {
           </div>
         </div>
         <div className="sign-in__submit">
-          <button className="sign-in__btn" type="submit">
+          <button className="sign-in__btn" type="submit" >
             Sign in
           </button>
         </div>

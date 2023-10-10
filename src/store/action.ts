@@ -41,3 +41,9 @@ export const loadComments = createAction('moviepage/loadComments', (comments) =>
     payload: comments,
   }
 });
+
+export const setUserData = createAction('user/setuserData', (userData) => {
+  return {
+    payload: userData,
+  }
+});

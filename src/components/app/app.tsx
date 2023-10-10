@@ -20,10 +20,9 @@ type AppProps = {
   films: TFilm[];
   genres: string[];
   selectFilmsByGenre: (genre: string, films: TFilm[]) => TFilm[];
-  auth: string;
 };
 
-const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, auth}: AppProps) => {
+const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre}: AppProps) => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     checkAuthAction();
@@ -44,7 +43,6 @@ const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, 
               releaseDate={releaseDate}
               genres={genres}
               selectFilmsByGenre={selectFilmsByGenre}
-              auth = {auth}
               isLoading = {isLoading}
             />
           }

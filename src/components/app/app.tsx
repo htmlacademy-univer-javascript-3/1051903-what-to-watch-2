@@ -62,7 +62,7 @@ const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre}:
         ></Route>
         <Route
           path={AppRoute.AddReview}
-          element={<AddReview films={films} />}
+          element={<AddReview />}
         ></Route>
         <Route
           path={AppRoute.Player}

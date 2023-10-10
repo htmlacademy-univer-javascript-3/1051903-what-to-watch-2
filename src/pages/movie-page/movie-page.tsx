@@ -65,7 +65,7 @@ const MoviePage = () => {
           <div className="film-card__hero">
             <div className="film-card__bg">
               <img
-                src="img/bg-the-grand-budapest-hotel.jpg"
+                src={film.backgroundImage}
                 alt="The Grand Budapest Hotel"
               />
             </div>

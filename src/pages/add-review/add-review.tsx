@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import PageNotFound from '../404-not-found/404-not-found';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { State, logoutAction } from '../../store/api-actions';
+import { State, logoutAction, sendReviewTextAction } from '../../store/api-actions';
 import { Film } from '../../mocks/films';
 import Logo from '../../components/logo/logo';
 import { store } from '../../store';
@@ -33,7 +33,12 @@ const AddReview = () => {
       store.dispatch(logoutAction());
       const navigate = useNavigate();
       navigate(AppRoute.Main);
-    }
+    };
+
+    const sendReview = (e: any) => {
+      e.preventDefault();
+      store.dispatch(sendReviewTextAction({comment: reviewText, rating: selectedRating, id: id}));
+    };
 
     return (
       <section className="film-card film-card--full">
@@ -93,7 +98,7 @@ const AddReview = () => {
         </div>
 
         <div className="add-review">
-          <form action="#" className="add-review__form" onSubmit={() => null}>
+          <form action="#" className="add-review__form" onSubmit={sendReview}>
             <div className="rating">
               <div className="rating__stars">
                 {ratings.map((rating) => (

@@ -5,7 +5,6 @@ import { store } from '.';
 import { AxiosInstance } from 'axios';
 import { dropToken, saveToken } from '../components/services/token';
 
-
 export type AppDispatch = typeof store.dispatch;
 export type State = ReturnType<typeof store.getState>;
 
@@ -103,7 +102,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     extra: AxiosInstance;
   }
 >(
-  'user/login',
+  'user/logout',
   async (_arg, { dispatch, extra: api }) => {
     await api.delete(APIRoute.SignOut);
     dropToken();
@@ -111,4 +110,20 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   }
 );
 
- 
+export const sendReviewTextAction = createAsyncThunk<void,{ comment: string; rating: number; id: string },{
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(
+  'user/sendReviewText',
+  async ({ comment, rating, id }, { dispatch, extra: api }) => {
+    debugger;
+    try {
+      const response = await api.post(APIRoute.FilmComments.replace(':filmId', `${id}`),{comment, rating});
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);

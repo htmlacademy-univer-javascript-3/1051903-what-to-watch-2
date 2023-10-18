@@ -55,7 +55,7 @@ const MoviePage = () => {
         });
       });
       return setIsLoading(true);
-    }, []);
+    }, [id]);
 
     if (isLoading) {
       return <Spinner />;

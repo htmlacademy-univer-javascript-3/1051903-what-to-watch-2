@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../const';
 import { TFilm } from '../mocks/films';
-import { changeGenre, loadFilms, setAuthStatus, setMovies } from './action';
+import { changeGenre, loadComments, loadFilms, loadMoreLike, loadSelectedFilm, setAuthStatus, setMovies, setUserData } from './action';
 
 export const films: TFilm[] = [
   {
@@ -334,13 +334,21 @@ export const films: TFilm[] = [
 
 export const genres: string[] = [
   'All genres',
-  'Драма',
-  'Триллер',
-  'Комедия',
-  'Фэнтези',
+  'Fantasy',
+  'Drama',
+  'Thriller',
+  'Comedy',
+  'Crime',
+  'Adventure',
+  'Action',
 ];
 
 const initialState = {
+  user: {
+    name: '123',
+    email: '',
+    avatarUrl: '',
+  },
   selectedGenre: 'All genres',
   films: [{
     id: '1',
@@ -670,7 +678,26 @@ const initialState = {
   },],
   genres: genres,
   previewFilms:[],
+  selectedFilm: {
+    id: 'string',
+    name: 'string',
+    posterImage: 'string',
+    backgroundImage: 'string',
+    backgroundColor: 'string',
+    videoLink: 'string',
+    description: 'string',
+    rating: 0,
+    scoresCount: 0,
+    director: 'string',
+    starring: ['string', 'string'],
+    runTime: 0,
+    genre: 'string',
+    released: 0,
+    isFavorite: false,
+  },
+  moreLike: [],
   authorizationStatus: AuthorizationStatus.Unknown,
+  comments: []
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -687,7 +714,18 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setAuthStatus, (state, action) => {
       state.authorizationStatus = action.payload;
     })
-    
+    .addCase(loadSelectedFilm, (state, action) => {
+      state.selectedFilm = action.payload;
+    })
+    .addCase(loadMoreLike, (state, action) => {
+      state.moreLike = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(setUserData, (state, action) => {
+      state.user = action.payload;
+    })
 });
 
 export const selectFilmsByGenre = (genre: string, films: TFilm[]) => {

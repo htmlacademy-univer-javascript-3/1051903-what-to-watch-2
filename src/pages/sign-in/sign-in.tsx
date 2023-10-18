@@ -1,13 +1,23 @@
 import { useState } from "react";
 import { store } from "../../store";
-import { loginActon } from "../../store/api-actions";
+import { State, loginActon } from "../../store/api-actions";
+import { useSelector } from 'react-redux';
+import { AppRoute, AuthorizationStatus } from "../../const";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('Oliver.conner@gmail.com');
+  const [password, setPassword] = useState('password1');
+  const authStatus = useSelector((state: State) => state.authorizationStatus);
+
   const handleSignIn = (e: any) => {
     e.preventDefault();
     store.dispatch(loginActon({login : email, password}))
+  }
+
+  const navigate = useNavigate();
+  if (authStatus === AuthorizationStatus.Auth) {
+    navigate(AppRoute.Main);      
   }
   return (
     <div className="user-page">
@@ -60,7 +70,7 @@ const SignIn = () => {
           </div>
         </div>
         <div className="sign-in__submit">
-          <button className="sign-in__btn" type="submit">
+          <button className="sign-in__btn" type="submit" >
             Sign in
           </button>
         </div>

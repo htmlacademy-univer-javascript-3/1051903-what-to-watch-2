@@ -5,6 +5,8 @@ import { TFilm } from '../../mocks/films';
 import { store } from '../../store';
 import { fetchFilmsAction } from '../../store/api-actions';
 import Spinner from '../../components/spinner/spinner';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { Link } from 'react-router-dom';
 
 type MainProps = {
   filmTitle: string;
@@ -13,18 +15,18 @@ type MainProps = {
   films: TFilm[];
   genres: string[];
   selectFilmsByGenre: (genre: string, films: TFilm[]) => TFilm[];
+  auth: string;
 };
 
-const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, }: MainProps) => {
+const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, auth }: MainProps) => {
   const [visibleFilms, setVisibleFilms] = useState(8);
   const addMoreFilms = () => setVisibleFilms(visibleFilms + 8);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     store.dispatch(fetchFilmsAction()).then(() => {
-      setIsLoading(false)
+      setIsLoading(false);
     });
-    console.log(store.getState().previewFilms)
-  }, [])
+  }, []);
   return (
     <>
       <section className="film-card">
@@ -45,22 +47,31 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
               <span className="logo__letter logo__letter--3">W</span>
             </a>
           </div>
-
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img
-                  src="img/avatar.jpg"
-                  alt="User avatar"
-                  width="63"
-                  height="63"
-                />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
-            </li>
-          </ul>
+          {auth === AuthorizationStatus.Auth ? (
+            <ul className="user-block">
+              <li className="user-block__item">
+                <div className="user-block__avatar">
+                  <img
+                    src="img/avatar.jpg"
+                    alt="User avatar"
+                    width="63"
+                    height="63"
+                  />
+                </div>
+              </li>
+              <li className="user-block__item">
+                <a className="user-block__link">Sign out</a>
+              </li>
+            </ul>
+          ) : (
+            <Link to={AppRoute.SignIn}>
+              <ul className="user-block">
+                <li className="user-block__item">
+                  <a className="user-block__link">Sign In</a>
+                </li>
+              </ul>
+            </Link>
+          )}
         </header>
 
         <div className="film-card__wrap">

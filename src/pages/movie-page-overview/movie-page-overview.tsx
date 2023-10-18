@@ -7,15 +7,16 @@ type MoviePageOverviewProps = {
 const MoviePageOverview = ({ selectedFilm }: MoviePageOverviewProps) => {
   const getRatingDescription = (rating: number) => {
     const ratingDescriptions: { [key: number]: string } = {
+      0: 'Bad',
       1: 'Bad',
       2: 'Bad',
-      3: 'Bad',
-      4: 'Bad',
-      5: 'Bad',
-      6: 'Normal',
+      3: 'Normal',
+      4: 'Normal',
+      5: 'Good',
+      6: 'Good',
       7: 'Good',
       8: 'Very good',
-      9: 'Awesome',
+      9: 'Very good',
       10: 'Awesome',
     };
 

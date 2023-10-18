@@ -7,11 +7,15 @@ import Tabs from '../../components/tabs/tabs';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { Film } from '../../mocks/films';
 import { store } from '../../store';
-import { State, fetchCommentsAction, fetchMoreLikeFilmsAction, fetchSelectedFilmAction, logoutAction } from '../../store/api-actions';
+import {
+  State,
+  fetchCommentsAction,
+  fetchMoreLikeFilmsAction,
+  fetchSelectedFilmAction,
+  logoutAction,
+} from '../../store/api-actions';
 import PageNotFound from '../404-not-found/404-not-found';
 import Logo from '../../components/logo/logo';
-
-
 
 type Films = {
   id: string;
@@ -28,12 +32,10 @@ type User = {
 };
 
 const MoviePage = () => {
-  const { id } = useParams();
+  const id = (useParams().id || '') as string;
   const films: Films[] = useSelector((state: State) => state.previewFilms);
-  
-  if (id === undefined || !films.find((film) => film.id === id)) {
-    return <PageNotFound />;
-  } else {
+
+  if (id !== undefined || films.find((film) => film.id === id)) {
     const [isLoading, setIsLoading] = useState(true);
     const film: Film = useSelector((state: State) => state.selectedFilm);
     const moreLikeFilms: Films[] = useSelector((state: State) => state.moreLike);
@@ -44,7 +46,7 @@ const MoviePage = () => {
       store.dispatch(logoutAction());
       const navigate = useNavigate();
       navigate(AppRoute.Main);
-    }
+    };
 
     useEffect(() => {
       store.dispatch(fetchSelectedFilmAction(id)).then(() => {
@@ -64,10 +66,7 @@ const MoviePage = () => {
         <section className="film-card film-card--full">
           <div className="film-card__hero">
             <div className="film-card__bg">
-              <img
-                src={film.backgroundImage}
-                alt="The Grand Budapest Hotel"
-              />
+              <img src={film.backgroundImage} alt={film.name} />
             </div>
 
             <h1 className="visually-hidden">WTW</h1>
@@ -76,7 +75,9 @@ const MoviePage = () => {
               <Logo />
               {authStatus === AuthorizationStatus.Auth ? (
                 <ul className="user-block">
-                  <div className="user-name" style={{marginRight:'20px'}}>{user.name}</div>
+                  <div className="user-name" style={{ marginRight: '20px' }}>
+                    {user.name}
+                  </div>
                   <li className="user-block__item">
                     <div className="user-block__avatar">
                       <img
@@ -88,7 +89,9 @@ const MoviePage = () => {
                     </div>
                   </li>
                   <li className="user-block__item">
-                    <a className="user-block__link" onClick={handleSignOut}>Sign out</a>
+                    <a className="user-block__link" onClick={handleSignOut}>
+                      Sign out
+                    </a>
                   </li>
                 </ul>
               ) : (
@@ -186,6 +189,8 @@ const MoviePage = () => {
         </div>
       </>
     );
+  } else {
+    return <PageNotFound />;
   }
 };
 

@@ -118,7 +118,6 @@ export const sendReviewTextAction = createAsyncThunk<void,{ comment: string; rat
 >(
   'user/sendReviewText',
   async ({ comment, rating, id }, { dispatch, extra: api }) => {
-    debugger;
     try {
       const response = await api.post(APIRoute.FilmComments.replace(':filmId', `${id}`),{comment, rating});
       console.log(response.data);

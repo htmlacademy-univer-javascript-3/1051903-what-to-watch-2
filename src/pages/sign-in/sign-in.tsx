@@ -3,7 +3,8 @@ import { store } from "../../store";
 import { State, loginActon } from "../../store/api-actions";
 import { useSelector } from 'react-redux';
 import { AppRoute, AuthorizationStatus } from "../../const";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 const SignIn = () => {
   const [email, setEmail] = useState('Oliver.conner@gmail.com');
   const [password, setPassword] = useState('password1');

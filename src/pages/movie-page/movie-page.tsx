@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import MoreLikeThis from '../../components/more-like-this/more-like-this';
@@ -31,7 +31,7 @@ type User = {
   avatarUrl: string;
 };
 
-const MoviePage = () => {
+const MoviePage = React.memo(() => {
   const id = (useParams().id || '') as string;
   const films: Films[] = useSelector((state: State) => state.previewFilms);
 
@@ -192,6 +192,6 @@ const MoviePage = () => {
   } else {
     return <PageNotFound />;
   }
-};
+});
 
 export default MoviePage;

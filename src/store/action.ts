@@ -18,6 +18,12 @@ export const loadFilms = createAction('moviepage/loadFilms', (films) => {
   };
 });
 
+export const loadPromoFilm = createAction('moviepage/loadPromoFilm', (film) => {
+  return {
+    payload: film,
+  };
+});
+
 export const setAuthStatus = createAction('user/setAuthStatus', (auth) => {
   return {
     payload: auth,

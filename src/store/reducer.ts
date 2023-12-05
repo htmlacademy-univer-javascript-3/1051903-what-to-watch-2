@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../const';
 import { TFilm } from '../mocks/films';
-import { changeGenre, loadComments, loadFilms, loadMoreLike, loadSelectedFilm, setAuthStatus, setMovies, setUserData } from './action';
+import { changeGenre, loadComments, loadFilms, loadMoreLike, loadPromoFilm, loadSelectedFilm, setAuthStatus, setMovies, setUserData } from './action';
 
 export const films: TFilm[] = [
   {
@@ -676,6 +676,7 @@ const initialState = {
       duration: 98,
     },
   },],
+  promoFilm: {},
   genres: genres,
   previewFilms:[],
   selectedFilm: {
@@ -710,6 +711,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadFilms, (state, action) => {
       state.previewFilms = action.payload;
+    })
+    .addCase(loadPromoFilm,(state, action) => {
+      state.promoFilm = action.payload;
     })
     .addCase(setAuthStatus, (state, action) => {
       state.authorizationStatus = action.payload;

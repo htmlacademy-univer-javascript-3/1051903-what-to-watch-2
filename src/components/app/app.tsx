@@ -10,7 +10,7 @@ import Player from '../../pages/player/player';
 import PageNotFound from '../../pages/404-not-found/404-not-found';
 import PrivateRoute from '../private-root/private-root';
 import { TFilm } from '../../mocks/films';
-import { checkAuthAction, fetchFilmsAction } from '../../store/api-actions';
+import { checkAuthAction, fetchFilmsAction, getPromoFilmAction } from '../../store/api-actions';
 import { store } from '../../store';
 
 type AppProps = {
@@ -26,6 +26,7 @@ const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre}:
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     checkAuthAction();
+    store.dispatch(getPromoFilmAction());
     store.dispatch(fetchFilmsAction()).then(() => {
       setIsLoading(false);
     });

@@ -3,6 +3,7 @@ import { AppRoute } from '../../const';
 import { Film } from '../../mocks/films';
 import { useSelector } from 'react-redux';
 import { State } from '../../store/api-actions';
+import { useRef, useState } from 'react';
 
 const Player = () => {
   const id = (useParams().id || '') as string;
@@ -21,13 +22,30 @@ const Player = () => {
 
     return formattedTime;
   }
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  // const [isPlaying, setIsPlaying] = useState(false);
+  const playVideo = () => {
+    if (videoRef.current){
+      videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
+    }
+  }
+
+  const handleFullscreen = () => {
+    if (videoRef.current) {
+      if (videoRef.current.requestFullscreen) {
+        videoRef.current.requestFullscreen();
+      }
+    }
+  };
 
   return (
     <div className="player">
       <video
-        src="#"
+        src={selectedFilm.videoLink}
         className="player__video"
         poster="img/player-poster.jpg"
+        ref={videoRef}
       ></video>
       <Link to={AppRoute.Film.replace(':id', `${id}`)}>
         <button type="button" className="player__exit">
@@ -51,7 +69,7 @@ const Player = () => {
         </div>
 
         <div className="player__controls-row">
-          <button type="button" className="player__play">
+          <button type="button" className="player__play" onClick={playVideo}>
             <svg viewBox="0 0 19 19" width="19" height="19">
               <use xlinkHref="#play-s"></use>
             </svg>
@@ -59,7 +77,7 @@ const Player = () => {
           </button>
           <div className="player__name">Transpotting</div>
 
-          <button type="button" className="player__full-screen">
+          <button type="button" className="player__full-screen" onClick={handleFullscreen}>
             <svg viewBox="0 0 27 27" width="27" height="27">
               <use xlinkHref="#full-screen"></use>
             </svg>

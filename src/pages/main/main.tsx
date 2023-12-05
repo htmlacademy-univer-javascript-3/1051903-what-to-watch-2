@@ -3,12 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import GenreList from '../../components/genre-list/genre-list';
 import ShowMore from '../../components/show-more/show-more';
 import Spinner from '../../components/spinner/spinner';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { APIRoute, AppRoute, AuthorizationStatus } from '../../const';
 import { TFilm } from '../../mocks/films';
 import Logo from '../../components/logo/logo';
 import { useSelector } from 'react-redux';
 import { State, logoutAction } from '../../store/api-actions';
 import { store } from '../../store';
+import { changeFavoriteFilms } from '../../store/action';
 
 type MainProps = {
   filmTitle: string;
@@ -26,11 +27,32 @@ type User = {
   avatarUrl: string;
 };
 
+type PromoFilm = {
+  id?: string
+  name?: string
+  posterImage?: string
+  backgroundImage?: string
+  videoLink?: string
+  genre?: string
+  released?: number
+  isFavorite?: boolean
+}
+
+export type FavoriteFilm = {
+  id?: string
+  name?: string
+  previewImage?: string
+  previewVideoLink?: string
+  genre?: string
+}
+
 const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, isLoading }: MainProps) => {
   const [visibleFilms, setVisibleFilms] = useState(8);
   const addMoreFilms = () => setVisibleFilms(visibleFilms + 8);
   const user: User = useSelector((state:State) => state.user);
   const authStatus: string = useSelector((state:State) => state.authorizationStatus);
+  const promoFilm : PromoFilm = useSelector((state: State) => state.promoFilm);
+  const favoriteFilms : FavoriteFilm[] = useSelector((state: State) => state.favoriteFilms)
 
   const handleSignOut = () => {
     store.dispatch(logoutAction());
@@ -38,13 +60,22 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
     navigate(AppRoute.Main);
   }
 
+  const changeFavoriteFilms = () => {
+    if (authStatus !== AuthorizationStatus.Auth){
+      const navigate = useNavigate();
+      navigate(APIRoute.SignIn);
+    } else {
+      //code for list changing
+    }
+  }
+
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
           <img
-            src="img/bg-the-grand-budapest-hotel.jpg"
-            alt="The Grand Budapest Hotel"
+            src={promoFilm.backgroundImage}
+            alt={promoFilm.name}
           />
         </div>
 
@@ -84,18 +115,18 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
           <div className="film-card__info">
             <div className="film-card__poster">
               <img
-                src="img/the-grand-budapest-hotel-poster.jpg"
-                alt="The Grand Budapest Hotel poster"
+                src={promoFilm.posterImage}
+                alt={promoFilm.name}
                 width="218"
                 height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{filmTitle}</h2>
+              <h2 className="film-card__title">{promoFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{releaseDate}</span>
+                <span className="film-card__genre">{promoFilm.genre}</span>
+                <span className="film-card__year">{promoFilm.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -106,17 +137,23 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
-                  <span>Play</span>
+                  <Link
+                      to={AppRoute.Player.replace(':id', `${promoFilm.id}`)}
+                      style={{ textDecoration: 'none', color: '#eee5b5' }}
+                    >
+                      <span>Play</span>
+                    </Link>
                 </button>
                 <button
                   className="btn btn--list film-card__button"
                   type="button"
+                  onClick={changeFavoriteFilms}
                 >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">9</span>
+                  <span className="film-card__count">{favoriteFilms.length}</span>
                 </button>
               </div>
             </div>

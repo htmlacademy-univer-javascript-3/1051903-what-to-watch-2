@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute, AuthorizationStatus } from '../const';
-import { loadComments, loadFilms, loadMoreLike, loadSelectedFilm, setAuthStatus, setUserData } from './action';
+import { loadComments, loadFavFilms, loadFilms, loadMoreLike, loadPromoFilm, loadSelectedFilm, setAuthStatus, setUserData } from './action';
 import { store } from '.';
 import { AxiosInstance } from 'axios';
 import { dropToken, saveToken } from '../components/services/token';
@@ -58,6 +58,26 @@ export const fetchFilmsAction = createAsyncThunk<void, undefined, {
 >('data/fetchFilms', async (_arg, { dispatch, extra: api }) => {
   const response = await api.get(APIRoute.Films);
   dispatch(loadFilms(response.data));
+});
+
+export const getPromoFilmAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}
+>('data/getPromoFilm', async (_arg, { dispatch, extra: api }) => {
+  const response = await api.get('/promo');
+  dispatch(loadPromoFilm(response.data));   
+});
+
+export const getFavFilmsAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}
+>('data/getFavFilms', async (_arg, { dispatch, extra: api }) => {
+  const response = await api.get(APIRoute.Favorite);
+  dispatch(loadFavFilms(response.data));   
 });
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {

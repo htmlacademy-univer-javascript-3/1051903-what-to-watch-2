@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../const';
 import { TFilm } from '../mocks/films';
-import { changeGenre, loadComments, loadFilms, loadMoreLike, loadSelectedFilm, setAuthStatus, setMovies, setUserData } from './action';
+import { changeFavoriteFilms, changeGenre, loadComments, loadFavFilms, loadFilms, loadMoreLike, loadPromoFilm, loadSelectedFilm, setAuthStatus, setMovies, setUserData } from './action';
 
 export const films: TFilm[] = [
   {
@@ -676,8 +676,10 @@ const initialState = {
       duration: 98,
     },
   },],
+  promoFilm: {},
   genres: genres,
   previewFilms:[],
+  favoriteFilms: [{}, {}],
   selectedFilm: {
     id: 'string',
     name: 'string',
@@ -711,11 +713,20 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loadFilms, (state, action) => {
       state.previewFilms = action.payload;
     })
+    .addCase(loadPromoFilm,(state, action) => {
+      state.promoFilm = action.payload;
+    })
     .addCase(setAuthStatus, (state, action) => {
       state.authorizationStatus = action.payload;
     })
     .addCase(loadSelectedFilm, (state, action) => {
       state.selectedFilm = action.payload;
+    })
+    .addCase(changeFavoriteFilms, (state, action) => {
+      state.favoriteFilms = action.payload;
+    })
+    .addCase(loadFavFilms, (state, action) => {
+      state.favoriteFilms = action.payload;
     })
     .addCase(loadMoreLike, (state, action) => {
       state.moreLike = action.payload;

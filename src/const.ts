@@ -20,4 +20,5 @@ export enum APIRoute {
     FilmComments = '/comments/:filmId',
     SignIn = '/login',
     SignOut = '/logout',
+    Favorite = '/favorite',
 }

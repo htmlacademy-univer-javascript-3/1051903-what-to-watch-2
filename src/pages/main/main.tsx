@@ -9,6 +9,7 @@ import Logo from '../../components/logo/logo';
 import { useSelector } from 'react-redux';
 import { State, logoutAction } from '../../store/api-actions';
 import { store } from '../../store';
+import { changeFavoriteFilms } from '../../store/action';
 
 type MainProps = {
   filmTitle: string;
@@ -37,12 +38,21 @@ type PromoFilm = {
   isFavorite?: boolean
 }
 
+export type FavoriteFilm = {
+  id?: string
+  name?: string
+  previewImage?: string
+  previewVideoLink?: string
+  genre?: string
+}
+
 const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, isLoading }: MainProps) => {
   const [visibleFilms, setVisibleFilms] = useState(8);
   const addMoreFilms = () => setVisibleFilms(visibleFilms + 8);
   const user: User = useSelector((state:State) => state.user);
   const authStatus: string = useSelector((state:State) => state.authorizationStatus);
   const promoFilm : PromoFilm = useSelector((state: State) => state.promoFilm);
+  const favoriteFilms : FavoriteFilm[] = useSelector((state: State) => state.favoriteFilms)
 
   const handleSignOut = () => {
     store.dispatch(logoutAction());
@@ -133,7 +143,7 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">9</span>
+                  <span className="film-card__count">{favoriteFilms.length}</span>
                 </button>
               </div>
             </div>

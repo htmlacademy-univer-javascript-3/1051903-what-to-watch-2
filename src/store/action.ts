@@ -24,6 +24,18 @@ export const loadPromoFilm = createAction('moviepage/loadPromoFilm', (film) => {
   };
 });
 
+export const changeFavoriteFilms = createAction('moviepage/changeFavoriteFilms', (favoriteFilms) => {
+  return {
+    payload: favoriteFilms,
+  };
+});
+
+export const loadFavFilms = createAction('moviepage/loadFavFilms', (films) => {
+  return {
+    payload: films,
+  };
+});
+
 export const setAuthStatus = createAction('user/setAuthStatus', (auth) => {
   return {
     payload: auth,

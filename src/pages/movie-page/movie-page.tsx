@@ -5,7 +5,7 @@ import MoreLikeThis from '../../components/more-like-this/more-like-this';
 import Spinner from '../../components/spinner/spinner';
 import Tabs from '../../components/tabs/tabs';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { Film } from '../../mocks/films';
+import { Film, TFilm } from '../../mocks/films';
 import { store } from '../../store';
 import {
   State,
@@ -16,6 +16,7 @@ import {
 } from '../../store/api-actions';
 import PageNotFound from '../404-not-found/404-not-found';
 import Logo from '../../components/logo/logo';
+import { FavoriteFilm } from '../main/main';
 
 type Films = {
   id: string;

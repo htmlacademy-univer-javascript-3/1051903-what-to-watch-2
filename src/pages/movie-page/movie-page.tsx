@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import MoreLikeThis from '../../components/more-like-this/more-like-this';
 import Spinner from '../../components/spinner/spinner';
 import Tabs from '../../components/tabs/tabs';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { APIRoute, AppRoute, AuthorizationStatus } from '../../const';
 import { Film, TFilm } from '../../mocks/films';
 import { store } from '../../store';
 import {
@@ -42,6 +42,7 @@ const MoviePage = React.memo(() => {
     const moreLikeFilms: Films[] = useSelector((state: State) => state.moreLike);
     const authStatus = useSelector((state: State) => state.authorizationStatus);
     const user: User = useSelector((state: State) => state.user);
+    const favoriteFilms: FavoriteFilm[] = useSelector((state: State) => state.favoriteFilms)
 
     const handleSignOut = () => {
       store.dispatch(logoutAction());
@@ -60,6 +61,15 @@ const MoviePage = React.memo(() => {
 
     if (isLoading) {
       return <Spinner />;
+    }
+
+    const changeFavoriteFilms = () => {
+      if (authStatus !== AuthorizationStatus.Auth){
+        const navigate = useNavigate();
+        navigate(APIRoute.SignIn);
+      } else {
+        //code for list changing
+      }
     }
 
     return (
@@ -135,12 +145,13 @@ const MoviePage = React.memo(() => {
                   <button
                     className="btn btn--list film-card__button"
                     type="button"
+                    onClick={changeFavoriteFilms}
                   >
                     <svg viewBox="0 0 19 20" width="19" height="20">
                       <use xlinkHref="#add"></use>
                     </svg>
                     <span>My list</span>
-                    <span className="film-card__count">{films.length}</span>
+                    <span className="film-card__count">{favoriteFilms.length}</span>
                   </button>
                   {authStatus === AuthorizationStatus.Auth ? (
                     <Link

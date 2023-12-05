@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import GenreList from '../../components/genre-list/genre-list';
 import ShowMore from '../../components/show-more/show-more';
 import Spinner from '../../components/spinner/spinner';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { APIRoute, AppRoute, AuthorizationStatus } from '../../const';
 import { TFilm } from '../../mocks/films';
 import Logo from '../../components/logo/logo';
 import { useSelector } from 'react-redux';
@@ -58,6 +58,15 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
     store.dispatch(logoutAction());
     const navigate = useNavigate();
     navigate(AppRoute.Main);
+  }
+
+  const changeFavoriteFilms = () => {
+    if (authStatus !== AuthorizationStatus.Auth){
+      const navigate = useNavigate();
+      navigate(APIRoute.SignIn);
+    } else {
+      //code for list changing
+    }
   }
 
   return (
@@ -138,6 +147,7 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
                 <button
                   className="btn btn--list film-card__button"
                   type="button"
+                  onClick={changeFavoriteFilms}
                 >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>

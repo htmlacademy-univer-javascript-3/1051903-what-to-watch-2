@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { AppRoute } from "../../const";
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 type MoreLike = {
   id: string;
@@ -19,7 +19,7 @@ const MoreLikeThis = ({ films }: MoreLikeThisProps) => {
       <h2 className="catalog__title">More like this</h2>
       <div className="catalog__films-list">
         {films.map((film) => (
-          <Link to={AppRoute.Film.replace(':id', `${film.id}`)} style={{width: `100%`, color: `#dfcf77`}}>
+          <Link key={film.id} to={AppRoute.Film.replace(':id', `${film.id}`)} style={{width: `100%`, color: `#dfcf77`}}>
             <article
               className="small-film-card catalog__films-card"
               key={film.name}

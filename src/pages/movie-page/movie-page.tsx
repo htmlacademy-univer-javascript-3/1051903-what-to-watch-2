@@ -18,7 +18,7 @@ import PageNotFound from '../404-not-found/404-not-found';
 import Logo from '../../components/logo/logo';
 import { FavoriteFilm } from '../main/main';
 
-type Films = {
+export type Films = {
   id: string;
   name: string;
   previewImage: string;

@@ -343,7 +343,7 @@ export const genres: string[] = [
   'Action',
 ];
 
-const initialState = {
+export const initialState = {
   user: {
     name: '123',
     email: '',
@@ -713,7 +713,7 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loadFilms, (state, action) => {
       state.previewFilms = action.payload;
     })
-    .addCase(loadPromoFilm,(state, action) => {
+    .addCase(loadPromoFilm, (state, action) => {
       state.promoFilm = action.payload;
     })
     .addCase(setAuthStatus, (state, action) => {
@@ -736,11 +736,11 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUserData, (state, action) => {
       state.user = action.payload;
-    })
+    });
 });
 
-export const selectFilmsByGenre = (genre: string, films: TFilm[]) => {
-  return genre === 'All genres'
+export const selectFilmsByGenre = (genre: string, films: TFilm[]) => (
+  genre === 'All genres'
     ? films
-    : films.slice().filter((film) => film.genre === genre);
-};
+    : films.slice().filter((film) => film.genre === genre)
+);

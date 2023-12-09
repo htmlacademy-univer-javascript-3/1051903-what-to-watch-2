@@ -3,11 +3,11 @@ import { AppRoute } from '../../const';
 import { Film } from '../../mocks/films';
 import { useSelector } from 'react-redux';
 import { State } from '../../store/api-actions';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 const Player = () => {
   const id = (useParams().id || '') as string;
-  const selectedFilm:Film = useSelector((state: State) => state.selectedFilm)
+  const selectedFilm:Film = useSelector((state: State) => state.selectedFilm);
 
   function formatTime(minutes: number) {
     const hours = Math.floor(minutes / 60);
@@ -29,7 +29,7 @@ const Player = () => {
     if (videoRef.current){
       videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
     }
-  }
+  };
 
   const handleFullscreen = () => {
     if (videoRef.current) {
@@ -46,7 +46,8 @@ const Player = () => {
         className="player__video"
         poster="img/player-poster.jpg"
         ref={videoRef}
-      ></video>
+      >
+      </video>
       <Link to={AppRoute.Film.replace(':id', `${id}`)}>
         <button type="button" className="player__exit">
           Exit
@@ -60,7 +61,8 @@ const Player = () => {
               className="player__progress"
               value="30"
               max="100"
-            ></progress>
+            >
+            </progress>
             <div className="player__toggler" style={{ left: '30%' }}>
               Toggler
             </div>

@@ -24,8 +24,8 @@ const AddReview = () => {
     return <PageNotFound />;
   } else {
     const selectedFilm: Film = useSelector((state:State) => state.selectedFilm);
-    const user: User = useSelector((state: State) => state.user); 
-    
+    const user: User = useSelector((state: State) => state.user);
+
     const ratings = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
     const [selectedRating, setSelectedRating] = useState(1);
 
@@ -127,7 +127,8 @@ const AddReview = () => {
                 id="review-text"
                 placeholder="Review text"
                 onChange={handleChange}
-              ></textarea>
+              >
+              </textarea>
               <div className="add-review__submit">
                 <button className="add-review__btn" type="submit">
                   Post

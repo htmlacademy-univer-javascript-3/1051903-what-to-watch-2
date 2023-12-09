@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import Main from '../../pages/main/main';
 import SignIn from '../../pages/sign-in/sign-in';
@@ -47,7 +47,8 @@ const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre}:
               isLoading = {isLoading}
             />
           }
-        ></Route>
+        >
+        </Route>
         <Route path={AppRoute.SignIn} element={<SignIn />}></Route>
         <Route
           path={AppRoute.MyList}
@@ -56,19 +57,23 @@ const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre}:
               <MyList films={films} />
             </PrivateRoute>
           }
-        ></Route>
+        >
+        </Route>
         <Route
           path={AppRoute.Film}
           element={<MoviePage/>}
-        ></Route>
+        >
+        </Route>
         <Route
           path={AppRoute.AddReview}
           element={<AddReview />}
-        ></Route>
+        >
+        </Route>
         <Route
           path={AppRoute.Player}
           element={<Player/>}
-        ></Route>
+        >
+        </Route>
         <Route path="*" element={<PageNotFound />}></Route>
       </Routes>
     </BrowserRouter>

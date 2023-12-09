@@ -9,7 +9,6 @@ import Logo from '../../components/logo/logo';
 import { useSelector } from 'react-redux';
 import { State, logoutAction } from '../../store/api-actions';
 import { store } from '../../store';
-import { changeFavoriteFilms } from '../../store/action';
 
 type MainProps = {
   filmTitle: string;
@@ -54,20 +53,19 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
   const promoFilm : PromoFilm = useSelector((state: State) => state.promoFilm);
   const favoriteFilms : FavoriteFilm[] = useSelector((state: State) => state.favoriteFilms);
 
+  const navigate = useNavigate();
   const handleSignOut = () => {
     store.dispatch(logoutAction());
-    const navigate = useNavigate();
     navigate(AppRoute.Main);
   };
 
   const changeFavoriteFilms = () => {
-    if (authStatus !== AuthorizationStatus.Auth){
-      const navigate = useNavigate();
+    if (authStatus !== AuthorizationStatus.Auth) {
       navigate(APIRoute.SignIn);
     } else {
       //code for list changing
     }
-  }
+  };
 
   return (
     <>
@@ -179,7 +177,6 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
               genres={genres}
               selectFilmsByGenre={selectFilmsByGenre}
               setVisibleFilms={setVisibleFilms}
-              films={films}
             />
           )}
 

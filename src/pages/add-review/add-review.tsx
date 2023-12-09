@@ -15,6 +15,11 @@ type User = {
 };
 
 const AddReview = () => {
+  const selectedFilm: Film = useSelector((state:State) => state.selectedFilm);
+  const user: User = useSelector((state: State) => state.user);
+  const [selectedRating, setSelectedRating] = useState(1);
+  const navigate = useNavigate();
+
   const [reviewText, setReviewText] = useState('');
   const handleChange = (e: any) => {
     setReviewText(e.target.value);
@@ -23,15 +28,10 @@ const AddReview = () => {
   if (id === undefined) {
     return <PageNotFound />;
   } else {
-    const selectedFilm: Film = useSelector((state:State) => state.selectedFilm);
-    const user: User = useSelector((state: State) => state.user);
-
     const ratings = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
-    const [selectedRating, setSelectedRating] = useState(1);
 
     const handleSignOut = () => {
       store.dispatch(logoutAction());
-      const navigate = useNavigate();
       navigate(AppRoute.Main);
     };
 

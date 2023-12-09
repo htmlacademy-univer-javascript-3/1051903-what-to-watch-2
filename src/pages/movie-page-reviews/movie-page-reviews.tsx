@@ -19,7 +19,7 @@ const MoviePageReviews = () => {
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">
         {comments.map((comment) => (
-          <div className="review" id={comment.id}>
+          <div className="review" key={comment.id}>
             <blockquote className="review__quote">
               <p className="review__text">{comment.comment}</p>
 

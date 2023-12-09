@@ -132,17 +132,17 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   dispatch(setAuthStatus(AuthorizationStatus.NoAuth));
 });
 
-export const sendReviewTextAction = createAsyncThunk<void, { comment: string; rating: number; id: string },{
+export const sendReviewTextAction = createAsyncThunk<
+  void,
+  { comment: string; rating: number; id: string },
+  {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }
->(
-  'user/sendReviewText',
-  async ({ comment, rating, id }, { extra: api }) => {
-    const response = await api.post(
-      APIRoute.FilmComments.replace(':filmId', `${id}`),
-      { comment, rating }
-    );
-  }
-);
+>('user/sendReviewText', async ({ comment, rating, id }, { extra: api }) => {
+  await api.post(APIRoute.FilmComments.replace(':filmId', `${id}`), {
+    comment,
+    rating,
+  });
+});

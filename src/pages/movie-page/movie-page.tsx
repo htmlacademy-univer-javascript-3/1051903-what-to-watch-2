@@ -5,7 +5,7 @@ import MoreLikeThis from '../../components/more-like-this/more-like-this';
 import Spinner from '../../components/spinner/spinner';
 import Tabs from '../../components/tabs/tabs';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../../const';
-import { Film, TFilm } from '../../mocks/films';
+import { Film } from '../../mocks/films';
 import { store } from '../../store';
 import {
   State,
@@ -32,7 +32,7 @@ type User = {
   avatarUrl: string;
 };
 
-const MoviePage = React.memo(() => {
+const MoviePage: React.FC = React.memo(() => {
   const id = (useParams().id || '') as string;
   const films: Films[] = useSelector((state: State) => state.previewFilms);
 
@@ -41,11 +41,11 @@ const MoviePage = React.memo(() => {
   const moreLikeFilms: Films[] = useSelector((state: State) => state.moreLike);
   const authStatus = useSelector((state: State) => state.authorizationStatus);
   const user: User = useSelector((state: State) => state.user);
-  const favoriteFilms: FavoriteFilm[] = useSelector((state: State) => state.favoriteFilms)
+  const favoriteFilms: FavoriteFilm[] = useSelector((state: State) => state.favoriteFilms);
 
   const navigate = useNavigate();
 
-  if (id !== undefined || films.find((film) => film.id === id)) {
+  if (id !== undefined || films.find((item) => item.id === id)) {
 
     const handleSignOut = () => {
       store.dispatch(logoutAction());
@@ -71,7 +71,7 @@ const MoviePage = React.memo(() => {
       } else {
         //code for list changing
       }
-    }
+    };
 
     return (
       <>
@@ -109,7 +109,7 @@ const MoviePage = React.memo(() => {
               ) : (
                 <Link
                   to={AppRoute.SignIn}
-                  style={{ textDecoration: `none`, marginLeft: `auto` }}
+                  style={{ textDecoration: 'none', marginLeft: 'auto' }}
                 >
                   <ul className="user-block">
                     <li className="user-block__item">

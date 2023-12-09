@@ -10,7 +10,7 @@ const SignIn = () => {
   const [password, setPassword] = useState('password1');
   const authStatus = useSelector((state: State) => state.authorizationStatus);
 
-  const handleSignIn = (e: any) => {
+  const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     store.dispatch(loginActon({ login: email, password }));
   };

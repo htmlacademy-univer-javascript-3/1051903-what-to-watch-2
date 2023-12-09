@@ -1,57 +1,82 @@
 import { createAction } from '@reduxjs/toolkit';
+import { MoreLike } from '../components/more-like-this/more-like-this';
+import { PromoFilm } from '../pages/main/main';
+import { AuthorizationStatus } from '../const';
+import { Film } from '../mocks/films';
 
-export const changeGenre = createAction('moviepage/changeGenre', (genre) => ({
-  payload: genre,
-}));
+type UserData = {
+  email: string;
+  name: string;
+  avatarUrl: string;
+};
 
-export const setMovies = createAction('moviepage/setMovies', (movies) => ({
-  payload: movies,
-}));
+export type Comment = {
+  id: string;
+  date: string;
+  user: string;
+  comment: string;
+  rating: number;
+};
 
-export const loadFilms = createAction('moviepage/loadFilms', (films) => ({
-  payload: films,
-}));
+export const changeGenre = createAction(
+  'moviepage/changeGenre',
+  (genre: string) => ({
+    payload: genre,
+  })
+);
+
+export const loadFilms = createAction(
+  'moviepage/loadFilms',
+  (films: MoreLike[]) => ({
+    payload: films,
+  })
+);
 
 export const loadPromoFilm = createAction(
   'moviepage/loadPromoFilm',
-  (film) => ({
+  (film: PromoFilm) => ({
     payload: film,
   })
 );
 
-export const changeFavoriteFilms = createAction(
-  'moviepage/changeFavoriteFilms',
-  (favoriteFilms) => ({
-    payload: favoriteFilms,
+export const loadFavFilms = createAction(
+  'moviepage/loadFavFilms',
+  (films: MoreLike[]) => ({
+    payload: films,
   })
 );
 
-export const loadFavFilms = createAction('moviepage/loadFavFilms', (films) => ({
-  payload: films,
-}));
-
-export const setAuthStatus = createAction('user/setAuthStatus', (auth) => ({
-  payload: auth,
-}));
+export const setAuthStatus = createAction(
+  'user/setAuthStatus',
+  (auth: AuthorizationStatus) => ({
+    payload: auth,
+  })
+);
 
 export const loadSelectedFilm = createAction(
   'moviepage/loadSelectedFilm',
-  (film) => ({
+  (film: Film) => ({
     payload: film,
   })
 );
 
-export const loadMoreLike = createAction('moviepage/loadMoreLike', (films) => ({
-  payload: films,
-}));
+export const loadMoreLike = createAction(
+  'moviepage/loadMoreLike',
+  (films: MoreLike[]) => ({
+    payload: films,
+  })
+);
 
 export const loadComments = createAction(
   'moviepage/loadComments',
-  (comments) => ({
+  (comments: Comment[]) => ({
     payload: comments,
   })
 );
 
-export const setUserData = createAction('user/setuserData', (userData) => ({
-  payload: userData,
-}));
+export const setUserData = createAction(
+  'user/setuserData',
+  (userData: UserData) => ({
+    payload: userData,
+  })
+);

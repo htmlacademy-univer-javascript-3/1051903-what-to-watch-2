@@ -37,6 +37,5 @@ const MoviePageReviews = () => {
       </div>
     </div>
   );
-}
- 
+};
 export default MoviePageReviews;

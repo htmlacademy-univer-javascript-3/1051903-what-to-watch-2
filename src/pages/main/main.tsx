@@ -24,7 +24,7 @@ type User = {
   avatarUrl: string;
 };
 
-type PromoFilm = {
+export type PromoFilm = {
   id?: string;
   name?: string;
   posterImage?: string;
@@ -100,7 +100,7 @@ const Main = ({ films, genres, selectFilmsByGenre, isLoading }: MainProps) => {
           ) : (
             <Link
               to={AppRoute.SignIn}
-              style={{ textDecoration: `none`, marginLeft: `auto` }}
+              style={{ textDecoration: 'none', marginLeft: 'auto' }}
             >
               <ul className="user-block">
                 <li className="user-block__item">
@@ -138,7 +138,7 @@ const Main = ({ films, genres, selectFilmsByGenre, isLoading }: MainProps) => {
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <Link
-                    to={AppRoute.Player.replace(':id', `${promoFilm.id}`)}
+                    to={promoFilm.id ? AppRoute.Player.replace(':id', `${promoFilm.id}`) : ''}
                     style={{ textDecoration: 'none', color: '#eee5b5' }}
                   >
                     <span>Play</span>

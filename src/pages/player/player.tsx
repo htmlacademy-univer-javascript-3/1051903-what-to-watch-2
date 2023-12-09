@@ -7,7 +7,7 @@ import { useRef } from 'react';
 
 const Player = () => {
   const id = (useParams().id || '') as string;
-  const selectedFilm:Film = useSelector((state: State) => state.selectedFilm);
+  const selectedFilm: Film = useSelector((state: State) => state.selectedFilm);
 
   function formatTime(minutes: number) {
     const hours = Math.floor(minutes / 60);

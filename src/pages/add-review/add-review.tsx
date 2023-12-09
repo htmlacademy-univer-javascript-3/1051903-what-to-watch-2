@@ -21,7 +21,7 @@ const AddReview = () => {
   const navigate = useNavigate();
 
   const [reviewText, setReviewText] = useState('');
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReviewText(e.target.value);
   };
   const { id } = useParams();
@@ -35,7 +35,7 @@ const AddReview = () => {
       navigate(AppRoute.Main);
     };
 
-    const sendReview = (e: any) => {
+    const sendReview = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       store.dispatch(sendReviewTextAction({comment: reviewText, rating: selectedRating, id: id}));
     };

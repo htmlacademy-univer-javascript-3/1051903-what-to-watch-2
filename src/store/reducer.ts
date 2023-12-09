@@ -2,6 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../const';
 import { TFilm } from '../mocks/films';
 import { changeFavoriteFilms, changeGenre, loadComments, loadFavFilms, loadFilms, loadMoreLike, loadPromoFilm, loadSelectedFilm, setAuthStatus, setMovies, setUserData } from './action';
+import { MoreLike } from '../components/more-like-this/more-like-this';
 
 export const films: TFilm[] = [
   {
@@ -739,7 +740,7 @@ export const reducer = createReducer(initialState, (builder) => {
     });
 });
 
-export const selectFilmsByGenre = (genre: string, films: TFilm[]) => (
+export const selectFilmsByGenre = (genre: string, films: MoreLike[]) => (
   genre === 'All genres'
     ? films
     : films.slice().filter((film) => film.genre === genre)

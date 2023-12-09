@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
-type MoreLike = {
+export type MoreLike = {
   id: string;
   name: string;
   previewImage: string;

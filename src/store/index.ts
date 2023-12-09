@@ -14,4 +14,4 @@ export const store = configureStore({
     }),
 });
 
-window.store = store;
+// window.store = store;

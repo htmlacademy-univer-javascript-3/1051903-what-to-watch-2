@@ -2,9 +2,10 @@ import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import VideoPlayer from '../video-player/video-player';
+import { MoreLike } from '../more-like-this/more-like-this';
 
 type CardProps = {
-  film: any;
+  film: MoreLike;
 };
 
 const Card = ({ film }: CardProps) => {

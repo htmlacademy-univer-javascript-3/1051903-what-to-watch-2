@@ -9,14 +9,12 @@ import Logo from '../../components/logo/logo';
 import { useSelector } from 'react-redux';
 import { State, logoutAction } from '../../store/api-actions';
 import { store } from '../../store';
+import { MoreLike } from '../../components/more-like-this/more-like-this';
 
 type MainProps = {
-  filmTitle: string;
-  genre: string;
-  releaseDate: string;
   films: TFilm[];
   genres: string[];
-  selectFilmsByGenre: (genre: string, films: TFilm[]) => TFilm[];
+  selectFilmsByGenre: (genre: string, films: MoreLike[]) => MoreLike[];
   isLoading: boolean;
 };
 
@@ -45,7 +43,7 @@ export type FavoriteFilm = {
   genre?: string;
 }
 
-const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, isLoading }: MainProps) => {
+const Main = ({ films, genres, selectFilmsByGenre, isLoading }: MainProps) => {
   const [visibleFilms, setVisibleFilms] = useState(8);
   const addMoreFilms = () => setVisibleFilms(visibleFilms + 8);
   const user: User = useSelector((state:State) => state.user);

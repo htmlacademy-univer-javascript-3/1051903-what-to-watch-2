@@ -12,17 +12,15 @@ import PrivateRoute from '../private-root/private-root';
 import { TFilm } from '../../mocks/films';
 import { checkAuthAction, fetchFilmsAction, getPromoFilmAction } from '../../store/api-actions';
 import { store } from '../../store';
+import { MoreLike } from '../more-like-this/more-like-this';
 
 type AppProps = {
-  filmTitle: string;
-  genre: string;
-  releaseDate: string;
   films: TFilm[];
   genres: string[];
-  selectFilmsByGenre: (genre: string, films: TFilm[]) => TFilm[];
+  selectFilmsByGenre: (genre: string, films: MoreLike[]) => MoreLike[];
 };
 
-const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre}: AppProps) => {
+const App = ({ films, genres, selectFilmsByGenre}: AppProps) => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     checkAuthAction();
@@ -39,9 +37,6 @@ const App = ({filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre}:
           element={
             <Main
               films={films}
-              filmTitle={filmTitle}
-              genre={genre}
-              releaseDate={releaseDate}
               genres={genres}
               selectFilmsByGenre={selectFilmsByGenre}
               isLoading = {isLoading}

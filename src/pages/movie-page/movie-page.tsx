@@ -36,17 +36,19 @@ const MoviePage = React.memo(() => {
   const id = (useParams().id || '') as string;
   const films: Films[] = useSelector((state: State) => state.previewFilms);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const film: Film = useSelector((state: State) => state.selectedFilm);
+  const moreLikeFilms: Films[] = useSelector((state: State) => state.moreLike);
+  const authStatus = useSelector((state: State) => state.authorizationStatus);
+  const user: User = useSelector((state: State) => state.user);
+  const favoriteFilms: FavoriteFilm[] = useSelector((state: State) => state.favoriteFilms)
+
+  const navigate = useNavigate();
+
   if (id !== undefined || films.find((film) => film.id === id)) {
-    const [isLoading, setIsLoading] = useState(true);
-    const film: Film = useSelector((state: State) => state.selectedFilm);
-    const moreLikeFilms: Films[] = useSelector((state: State) => state.moreLike);
-    const authStatus = useSelector((state: State) => state.authorizationStatus);
-    const user: User = useSelector((state: State) => state.user);
-    const favoriteFilms: FavoriteFilm[] = useSelector((state: State) => state.favoriteFilms)
 
     const handleSignOut = () => {
       store.dispatch(logoutAction());
-      const navigate = useNavigate();
       navigate(AppRoute.Main);
     };
 
@@ -65,7 +67,6 @@ const MoviePage = React.memo(() => {
 
     const changeFavoriteFilms = () => {
       if (authStatus !== AuthorizationStatus.Auth){
-        const navigate = useNavigate();
         navigate(APIRoute.SignIn);
       } else {
         //code for list changing

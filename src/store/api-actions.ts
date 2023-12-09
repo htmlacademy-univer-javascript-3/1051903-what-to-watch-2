@@ -139,15 +139,10 @@ export const sendReviewTextAction = createAsyncThunk<void, { comment: string; ra
   }
 >(
   'user/sendReviewText',
-  async ({ comment, rating, id }, { dispatch, extra: api }) => {
-    try {
-      const response = await api.post(
-        APIRoute.FilmComments.replace(':filmId', `${id}`),
-        { comment, rating }
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  async ({ comment, rating, id }, { extra: api }) => {
+    const response = await api.post(
+      APIRoute.FilmComments.replace(':filmId', `${id}`),
+      { comment, rating }
+    );
   }
 );

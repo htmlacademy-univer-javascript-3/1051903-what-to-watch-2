@@ -1,8 +1,8 @@
-import { TFilm } from '../../mocks/films';
 import Card from '../card/card';
+import { MoreLike } from '../more-like-this/more-like-this';
 
 type CardListProps = {
-  genreFilms: TFilm[];
+  genreFilms: MoreLike[];
 };
 
 const CardsList = ({ genreFilms }: CardListProps) => (

@@ -1,6 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute, AuthorizationStatus } from '../const';
-import { loadComments, loadFavFilms, loadFilms, loadMoreLike, loadPromoFilm, loadSelectedFilm, setAuthStatus, setUserData } from './action';
+import {
+  loadComments,
+  loadFavFilms,
+  loadFilms,
+  loadMoreLike,
+  loadPromoFilm,
+  loadSelectedFilm,
+  setAuthStatus,
+  setUserData,
+} from './action';
 import { store } from '.';
 import { AxiosInstance } from 'axios';
 import { dropToken, saveToken } from '../components/services/token';
@@ -8,46 +17,43 @@ import { dropToken, saveToken } from '../components/services/token';
 export type AppDispatch = typeof store.dispatch;
 export type State = ReturnType<typeof store.getState>;
 
-export const fetchSelectedFilmAction = createAsyncThunk<void, string, {
+export const fetchSelectedFilmAction = createAsyncThunk<
+  void,
+  string,
+  {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }
 >('data/fetchFilms', async (filmId, { dispatch, extra: api }) => {
-  try {
-    const response = await api.get(APIRoute.SelectFilm.replace(':filmId', `${filmId}`));
-    dispatch(loadSelectedFilm(response.data));
-  } catch (error) {
-    console.log(error)
-  }
+  const response = await api.get(
+    APIRoute.SelectFilm.replace(':filmId', `${filmId}`)
+  );
+  dispatch(loadSelectedFilm(response.data));
 });
 
 export const fetchMoreLikeFilmsAction = createAsyncThunk<void, string, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
 >('data/moreLikeFilm', async (filmId, { dispatch, extra: api }) => {
-try {
-  const response = await api.get(APIRoute.MoreLike.replace(':filmId', `${filmId}`));
+  const response = await api.get(
+    APIRoute.MoreLike.replace(':filmId', `${filmId}`)
+  );
   dispatch(loadMoreLike(response.data));
-} catch (error) {
-  console.log(error)
-}
 });
 
 export const fetchCommentsAction = createAsyncThunk<void, string, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
 >('data/moreLikeFilm', async (filmId, { dispatch, extra: api }) => {
-try {
-  const response = await api.get(APIRoute.FilmComments.replace(':filmId', `${filmId}`));
+  const response = await api.get(
+    APIRoute.FilmComments.replace(':filmId', `${filmId}`)
+  );
   dispatch(loadComments(response.data));
-} catch (error) {
-  console.log(error)
-}
 });
 
 export const fetchFilmsAction = createAsyncThunk<void, undefined, {
@@ -61,23 +67,23 @@ export const fetchFilmsAction = createAsyncThunk<void, undefined, {
 });
 
 export const getPromoFilmAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
 >('data/getPromoFilm', async (_arg, { dispatch, extra: api }) => {
   const response = await api.get('/promo');
-  dispatch(loadPromoFilm(response.data));   
+  dispatch(loadPromoFilm(response.data));
 });
 
 export const getFavFilmsAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
 >('data/getFavFilms', async (_arg, { dispatch, extra: api }) => {
   const response = await api.get(APIRoute.Favorite);
-  dispatch(loadFavFilms(response.data));   
+  dispatch(loadFavFilms(response.data));
 });
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
@@ -91,7 +97,6 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
     dispatch(setAuthStatus(AuthorizationStatus.Auth));
   } catch (error) {
     dispatch(setAuthStatus(AuthorizationStatus.NoAuth));
-    console.error(error)  
   }
 });
 
@@ -103,7 +108,7 @@ export const loginActon = createAsyncThunk<void, any, {
 >(
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    const response = (await api.post(APIRoute.SignIn, { email, password }));
+    const response = await api.post(APIRoute.SignIn, { email, password });
     saveToken(response.data.token);
     dispatch(setAuthStatus(AuthorizationStatus.Auth));
     dispatch(
@@ -121,28 +126,23 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     state: State;
     extra: AxiosInstance;
   }
->(
-  'user/logout',
-  async (_arg, { dispatch, extra: api }) => {
-    await api.delete(APIRoute.SignOut);
-    dropToken();
-    dispatch(setAuthStatus(AuthorizationStatus.NoAuth));
-  }
-);
+>('user/logout', async (_arg, { dispatch, extra: api }) => {
+  await api.delete(APIRoute.SignOut);
+  dropToken();
+  dispatch(setAuthStatus(AuthorizationStatus.NoAuth));
+});
 
-export const sendReviewTextAction = createAsyncThunk<void,{ comment: string; rating: number; id: string },{
+export const sendReviewTextAction = createAsyncThunk<
+  void,
+  { comment: string; rating: number; id: string },
+  {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }
->(
-  'user/sendReviewText',
-  async ({ comment, rating, id }, { dispatch, extra: api }) => {
-    try {
-      const response = await api.post(APIRoute.FilmComments.replace(':filmId', `${id}`),{comment, rating});
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-);
+>('user/sendReviewText', async ({ comment, rating, id }, { extra: api }) => {
+  await api.post(APIRoute.FilmComments.replace(':filmId', `${id}`), {
+    comment,
+    rating,
+  });
+});

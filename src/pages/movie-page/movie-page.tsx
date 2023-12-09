@@ -5,7 +5,7 @@ import MoreLikeThis from '../../components/more-like-this/more-like-this';
 import Spinner from '../../components/spinner/spinner';
 import Tabs from '../../components/tabs/tabs';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../../const';
-import { Film, TFilm } from '../../mocks/films';
+import { Film } from '../../mocks/films';
 import { store } from '../../store';
 import {
   State,
@@ -18,7 +18,7 @@ import PageNotFound from '../404-not-found/404-not-found';
 import Logo from '../../components/logo/logo';
 import { FavoriteFilm } from '../main/main';
 
-type Films = {
+export type Films = {
   id: string;
   name: string;
   previewImage: string;
@@ -32,21 +32,23 @@ type User = {
   avatarUrl: string;
 };
 
-const MoviePage = React.memo(() => {
+const MoviePage: React.FC = React.memo(() => {
   const id = (useParams().id || '') as string;
   const films: Films[] = useSelector((state: State) => state.previewFilms);
 
-  if (id !== undefined || films.find((film) => film.id === id)) {
-    const [isLoading, setIsLoading] = useState(true);
-    const film: Film = useSelector((state: State) => state.selectedFilm);
-    const moreLikeFilms: Films[] = useSelector((state: State) => state.moreLike);
-    const authStatus = useSelector((state: State) => state.authorizationStatus);
-    const user: User = useSelector((state: State) => state.user);
-    const favoriteFilms: FavoriteFilm[] = useSelector((state: State) => state.favoriteFilms)
+  const [isLoading, setIsLoading] = useState(true);
+  const film: Film = useSelector((state: State) => state.selectedFilm);
+  const moreLikeFilms: Films[] = useSelector((state: State) => state.moreLike);
+  const authStatus = useSelector((state: State) => state.authorizationStatus);
+  const user: User = useSelector((state: State) => state.user);
+  const favoriteFilms: FavoriteFilm[] = useSelector((state: State) => state.favoriteFilms);
+
+  const navigate = useNavigate();
+
+  if (id !== undefined || films.find((item) => item.id === id)) {
 
     const handleSignOut = () => {
       store.dispatch(logoutAction());
-      const navigate = useNavigate();
       navigate(AppRoute.Main);
     };
 
@@ -65,12 +67,11 @@ const MoviePage = React.memo(() => {
 
     const changeFavoriteFilms = () => {
       if (authStatus !== AuthorizationStatus.Auth){
-        const navigate = useNavigate();
         navigate(APIRoute.SignIn);
       } else {
         //code for list changing
       }
-    }
+    };
 
     return (
       <>
@@ -108,7 +109,7 @@ const MoviePage = React.memo(() => {
               ) : (
                 <Link
                   to={AppRoute.SignIn}
-                  style={{ textDecoration: `none`, marginLeft: `auto` }}
+                  style={{ textDecoration: 'none', marginLeft: 'auto' }}
                 >
                   <ul className="user-block">
                     <li className="user-block__item">

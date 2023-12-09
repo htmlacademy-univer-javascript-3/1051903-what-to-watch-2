@@ -9,15 +9,12 @@ import Logo from '../../components/logo/logo';
 import { useSelector } from 'react-redux';
 import { State, logoutAction } from '../../store/api-actions';
 import { store } from '../../store';
-import { changeFavoriteFilms } from '../../store/action';
+import { MoreLike } from '../../components/more-like-this/more-like-this';
 
 type MainProps = {
-  filmTitle: string;
-  genre: string;
-  releaseDate: string;
   films: TFilm[];
   genres: string[];
-  selectFilmsByGenre: (genre: string, films: TFilm[]) => TFilm[];
+  selectFilmsByGenre: (genre: string, films: MoreLike[]) => MoreLike[];
   isLoading: boolean;
 };
 
@@ -27,65 +24,63 @@ type User = {
   avatarUrl: string;
 };
 
-type PromoFilm = {
-  id?: string
-  name?: string
-  posterImage?: string
-  backgroundImage?: string
-  videoLink?: string
-  genre?: string
-  released?: number
-  isFavorite?: boolean
+export type PromoFilm = {
+  id?: string;
+  name?: string;
+  posterImage?: string;
+  backgroundImage?: string;
+  videoLink?: string;
+  genre?: string;
+  released?: number;
+  isFavorite?: boolean;
 }
 
 export type FavoriteFilm = {
-  id?: string
-  name?: string
-  previewImage?: string
-  previewVideoLink?: string
-  genre?: string
+  id?: string;
+  name?: string;
+  previewImage?: string;
+  previewVideoLink?: string;
+  genre?: string;
 }
 
-const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre, isLoading }: MainProps) => {
+const Main = ({ films, genres, selectFilmsByGenre, isLoading }: MainProps) => {
   const [visibleFilms, setVisibleFilms] = useState(8);
   const addMoreFilms = () => setVisibleFilms(visibleFilms + 8);
   const user: User = useSelector((state:State) => state.user);
   const authStatus: string = useSelector((state:State) => state.authorizationStatus);
   const promoFilm : PromoFilm = useSelector((state: State) => state.promoFilm);
-  const favoriteFilms : FavoriteFilm[] = useSelector((state: State) => state.favoriteFilms)
+  const favoriteFilms : FavoriteFilm[] = useSelector((state: State) => state.favoriteFilms);
 
+  const navigate = useNavigate();
   const handleSignOut = () => {
     store.dispatch(logoutAction());
-    const navigate = useNavigate();
     navigate(AppRoute.Main);
-  }
+  };
 
   const changeFavoriteFilms = () => {
-    if (authStatus !== AuthorizationStatus.Auth){
-      const navigate = useNavigate();
+    if (authStatus !== AuthorizationStatus.Auth) {
       navigate(APIRoute.SignIn);
     } else {
       //code for list changing
     }
-  }
+  };
 
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img
-            src={promoFilm.backgroundImage}
-            alt={promoFilm.name}
-          />
+          <img src={promoFilm.backgroundImage} alt={promoFilm.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
-          <Logo/>
+          <Logo />
           {authStatus === AuthorizationStatus.Auth ? (
             <ul className="user-block">
-              <div className="user-name" style={{marginRight: '20px'}}>{user.name}</div>
+              <div className="user-name" style={{ marginRight: '20px' }}>
+                {user.name}
+              </div>
               <li className="user-block__item">
                 <div className="user-block__avatar">
                   <img
@@ -97,11 +92,16 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
                 </div>
               </li>
               <li className="user-block__item">
-                <a className="user-block__link" onClick={handleSignOut}>Sign out</a>
+                <a className="user-block__link" onClick={handleSignOut}>
+                  Sign out
+                </a>
               </li>
             </ul>
           ) : (
-            <Link to={AppRoute.SignIn} style={{textDecoration: `none`, marginLeft: `auto`}}>
+            <Link
+              to={AppRoute.SignIn}
+              style={{ textDecoration: 'none', marginLeft: 'auto' }}
+            >
               <ul className="user-block">
                 <li className="user-block__item">
                   <a className="user-block__link">Sign In</a>
@@ -138,11 +138,11 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <Link
-                      to={AppRoute.Player.replace(':id', `${promoFilm.id}`)}
-                      style={{ textDecoration: 'none', color: '#eee5b5' }}
-                    >
-                      <span>Play</span>
-                    </Link>
+                    to={promoFilm.id ? AppRoute.Player.replace(':id', `${promoFilm.id}`) : ''}
+                    style={{ textDecoration: 'none', color: '#eee5b5' }}
+                  >
+                    <span>Play</span>
+                  </Link>
                 </button>
                 <button
                   className="btn btn--list film-card__button"
@@ -153,7 +153,9 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">{favoriteFilms.length}</span>
+                  <span className="film-card__count">
+                    {favoriteFilms.length}
+                  </span>
                 </button>
               </div>
             </div>
@@ -173,7 +175,6 @@ const Main = ({ filmTitle, genre, releaseDate, films, genres, selectFilmsByGenre
               genres={genres}
               selectFilmsByGenre={selectFilmsByGenre}
               setVisibleFilms={setVisibleFilms}
-              films={films}
             />
           )}
 

@@ -1,7 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../const';
-import { TFilm } from '../mocks/films';
-import { changeFavoriteFilms, changeGenre, loadComments, loadFavFilms, loadFilms, loadMoreLike, loadPromoFilm, loadSelectedFilm, setAuthStatus, setMovies, setUserData } from './action';
+import { Film, TFilm } from '../mocks/films';
+import { Comment, changeGenre, loadComments, loadFavFilms, loadFilms, loadMoreLike, loadPromoFilm, loadSelectedFilm, setAuthStatus, setUserData } from './action';
+import { MoreLike } from '../components/more-like-this/more-like-this';
 
 export const films: TFilm[] = [
   {
@@ -343,7 +344,7 @@ export const genres: string[] = [
   'Action',
 ];
 
-const initialState = {
+export const initialState = {
   user: {
     name: '123',
     email: '',
@@ -678,7 +679,7 @@ const initialState = {
   },],
   promoFilm: {},
   genres: genres,
-  previewFilms:[],
+  previewFilms:[] as MoreLike[],
   favoriteFilms: [{}, {}],
   selectedFilm: {
     id: 'string',
@@ -691,15 +692,15 @@ const initialState = {
     rating: 0,
     scoresCount: 0,
     director: 'string',
-    starring: ['string', 'string'],
+    starring: ['string', 'string'] as string[],
     runTime: 0,
     genre: 'string',
     released: 0,
     isFavorite: false,
-  },
-  moreLike: [],
+  } as Film,
+  moreLike: [] as MoreLike[],
   authorizationStatus: AuthorizationStatus.Unknown,
-  comments: []
+  comments: [] as Comment[]
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -707,13 +708,10 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(changeGenre, (state, action) => {
       state.selectedGenre = action.payload;
     })
-    .addCase(setMovies, (state, action) => {
-      state.films = action.payload;
-    })
     .addCase(loadFilms, (state, action) => {
       state.previewFilms = action.payload;
     })
-    .addCase(loadPromoFilm,(state, action) => {
+    .addCase(loadPromoFilm, (state, action) => {
       state.promoFilm = action.payload;
     })
     .addCase(setAuthStatus, (state, action) => {
@@ -721,9 +719,6 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadSelectedFilm, (state, action) => {
       state.selectedFilm = action.payload;
-    })
-    .addCase(changeFavoriteFilms, (state, action) => {
-      state.favoriteFilms = action.payload;
     })
     .addCase(loadFavFilms, (state, action) => {
       state.favoriteFilms = action.payload;
@@ -736,11 +731,11 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUserData, (state, action) => {
       state.user = action.payload;
-    })
+    });
 });
 
-export const selectFilmsByGenre = (genre: string, films: TFilm[]) => {
-  return genre === 'All genres'
+export const selectFilmsByGenre = (genre: string, films: MoreLike[]) => (
+  genre === 'All genres'
     ? films
-    : films.slice().filter((film) => film.genre === genre);
-};
+    : films.slice().filter((film) => film.genre === genre)
+);

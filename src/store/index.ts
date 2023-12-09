@@ -14,5 +14,4 @@ export const store = configureStore({
     }),
 });
 
-//@ts-ignore
-window.store = store;
+// window.store = store;

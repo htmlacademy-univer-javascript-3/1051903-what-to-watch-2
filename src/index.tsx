@@ -9,20 +9,11 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const Settings = {
-  filmTitle: 'The Grand Budapest Hotel',
-  genre: 'Drama',
-  releaseDate: '2014',
-};
-
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App
         films={store.getState().films}
-        filmTitle={Settings.filmTitle}
-        genre={Settings.genre}
-        releaseDate={Settings.releaseDate}
         genres = {store.getState().genres}
         selectFilmsByGenre = {selectFilmsByGenre}
       />

@@ -1,6 +1,7 @@
+import { MoreLike } from '../more-like-this/more-like-this';
 
 type VideoPlayerProps = {
-  film: any;
+  film: MoreLike;
 };
 
 const VideoPlayer = ({ film }: VideoPlayerProps) => (

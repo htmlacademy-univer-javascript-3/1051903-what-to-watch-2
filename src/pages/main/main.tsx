@@ -83,12 +83,13 @@ const Main = ({ films, genres, selectFilmsByGenre, isLoading }: MainProps) => {
               </div>
               <li className="user-block__item">
                 <div className="user-block__avatar">
-                  <img
-                    src={user.avatarUrl}
-                    alt="User avatar"
-                    width="63"
-                    height="63"
-                  />
+                  <Link to={AppRoute.MyList}>
+                    <img
+                      src={user.avatarUrl}
+                      alt="User avatar"
+                      width="63"
+                      height="63"
+                    /></Link>
                 </div>
               </li>
               <li className="user-block__item">
@@ -138,7 +139,11 @@ const Main = ({ films, genres, selectFilmsByGenre, isLoading }: MainProps) => {
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <Link
-                    to={promoFilm.id ? AppRoute.Player.replace(':id', `${promoFilm.id}`) : ''}
+                    to={
+                      promoFilm.id
+                        ? AppRoute.Player.replace(':id', `${promoFilm.id}`)
+                        : ''
+                    }
                     style={{ textDecoration: 'none', color: '#eee5b5' }}
                   >
                     <span>Play</span>

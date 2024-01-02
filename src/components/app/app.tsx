@@ -48,7 +48,7 @@ const App = ({ films, genres, selectFilmsByGenre}: AppProps) => {
         <Route
           path={AppRoute.MyList}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+            <PrivateRoute>
               <MyList films={films} />
             </PrivateRoute>
           }

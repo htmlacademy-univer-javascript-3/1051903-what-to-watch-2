@@ -113,7 +113,7 @@ const MoviePage: React.FC = React.memo(() => {
                 >
                   <ul className="user-block">
                     <li className="user-block__item">
-                      <a className="user-block__link">Sign In</a>
+                      <a className="user-block__link">Sign in</a>
                     </li>
                   </ul>
                 </Link>

@@ -24,7 +24,6 @@ const Player = () => {
   }
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  // const [isPlaying, setIsPlaying] = useState(false);
   const playVideo = () => {
     if (videoRef.current){
       videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
@@ -77,7 +76,7 @@ const Player = () => {
             </svg>
             <span>Play</span>
           </button>
-          <div className="player__name">Transpotting</div>
+          <div className="player__name">{selectedFilm.name}</div>
 
           <button type="button" className="player__full-screen" onClick={handleFullscreen}>
             <svg viewBox="0 0 27 27" width="27" height="27">

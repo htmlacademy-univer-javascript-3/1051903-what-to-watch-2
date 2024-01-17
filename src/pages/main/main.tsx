@@ -89,7 +89,8 @@ const Main = ({ films, genres, selectFilmsByGenre, isLoading }: MainProps) => {
                       alt="User avatar"
                       width="63"
                       height="63"
-                    /></Link>
+                    />
+                    </Link>
                 </div>
               </li>
               <li className="user-block__item">
@@ -105,7 +106,7 @@ const Main = ({ films, genres, selectFilmsByGenre, isLoading }: MainProps) => {
             >
               <ul className="user-block">
                 <li className="user-block__item">
-                  <a className="user-block__link">Sign In</a>
+                  <a className="user-block__link">Sign in</a>
                 </li>
               </ul>
             </Link>

@@ -21,7 +21,8 @@ const GenreList: React.FC<GenreListProps> = React.memo(({genres, selectFilmsByGe
   const genreFilmsToShow = genreFilms.slice(0, visibleFilms);
 
   useEffect(() => {
-    setVisibleFilms(8);
+    const visibleFilmsNumber = 8;
+    setVisibleFilms(visibleFilms);
   }, []);
   return (
     <>

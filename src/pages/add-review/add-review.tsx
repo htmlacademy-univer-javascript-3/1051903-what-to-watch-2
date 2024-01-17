@@ -17,7 +17,8 @@ type User = {
 const AddReview = () => {
   const selectedFilm: Film = useSelector((state:State) => state.selectedFilm);
   const user: User = useSelector((state: State) => state.user);
-  const [selectedRating, setSelectedRating] = useState(1);
+  const ratingDefault = 1;
+  const [selectedRating, setSelectedRating] = useState(ratingDefault);
   const navigate = useNavigate();
 
   const [reviewText, setReviewText] = useState('');
@@ -130,7 +131,7 @@ const AddReview = () => {
               >
               </textarea>
               <div className="add-review__submit">
-                <button className="add-review__btn" type="submit">
+                <button className="add-review__btn" type="submit" disabled = {!reviewText.trim()}>
                   Post
                 </button>
               </div>
